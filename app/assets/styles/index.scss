@@ -1,0 +1,19 @@
+html { scrollbar-width: thin; }
+
+body
+{
+	background-color: $black;
+	color: $white;
+}
+
+section
+{
+	transform: translateZ(0);
+	perspective: 1000px;
+	backface-visibility: hidden;
+}
+
+.container
+{
+	width: 100%;
+}

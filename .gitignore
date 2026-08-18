@@ -1,0 +1,11 @@
+.output
+.nuxt
+
+node_modules
+
+.env
+!.env.example
+
+*.sqlite
+
+.vscode
