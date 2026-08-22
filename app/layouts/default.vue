@@ -1,5 +1,5 @@
 <script setup>
-    useSeoMeta({ title: 'Data Forge'});
+	useSeoMeta({ title: 'Data Forge'});
 </script>
 
 

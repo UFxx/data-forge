@@ -1,27 +1,30 @@
 {
-	"name"    : "data-forge",
-	"type"    : "module",
-	"private" : true,
+	"name": "data-forge",
+	"type": "module",
+	"private": true,
 	"scripts": {
-		"build"       : "nuxt build",
-		"dev"         : "nuxt dev",
-		"generate"    : "nuxt generate",
-		"preview"     : "nuxt preview",
-		"postinstall" : "nuxt prepare",
-		"db:generate" : "drizzle-kit generate",
-		"db:migrate"  : "drizzle-kit migrate",
-		"db:studio"   : "drizzle-kit studio"
+		"build": "nuxt build",
+		"dev": "concurrently \"nuxt dev\" \"drizzle-kit studio\"",
+		"generate": "nuxt generate",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate"
 	},
 	"dependencies": {
-		"better-sqlite3" : "^13.0.3",
-		"drizzle-orm"    : "^0.45.2",
-		"nuxt"           : "^4.5.2",
-		"vue"            : "^3.5.41",
-		"vue-router"     : "^5.2.0"
+		"bcrypt": "^6.0.0",
+		"better-sqlite3": "^13.0.3",
+		"drizzle-orm": "^0.45.2",
+		"jsonwebtoken": "^9.0.3",
+		"nuxt": "^4.5.2",
+		"vue": "^3.5.41",
+		"vue-router": "^5.2.0"
 	},
 	"devDependencies": {
-		"@types/better-sqlite3" : "^9.6.0",
-		"drizzle-kit"           : "^0.31.10",
-		"sass-embedded"         : "^1.102.0"
+		"@types/bcrypt": "^6.0.0",
+		"@types/better-sqlite3": "^9.6.0",
+		"@types/jsonwebtoken": "^9.0.10",
+		"drizzle-kit": "^0.31.10",
+		"sass-embedded": "^1.102.0"
 	}
 }

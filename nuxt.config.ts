@@ -7,6 +7,12 @@ export default defineNuxtConfig({
 
 	css: ['@/assets/styles/index.scss'],
 
+	runtimeConfig:
+	{
+        JWT_SECRET  : process.env.NUXT_JWT_SECRET,
+        JWT_EXPIRES : process.env.NUXT_JWT_EXPIRES
+	},
+
 	vite:
 	{
 		server: { allowedHosts: true },
