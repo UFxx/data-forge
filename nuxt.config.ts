@@ -5,12 +5,25 @@ export default defineNuxtConfig({
 	compatibilityDate: '2025-07-15',
 	devtools: { enabled: true },
 
+	modules:
+	[
+		'@regle/nuxt',
+		'@pinia/nuxt',
+		'@vueuse/nuxt'
+	],
+
 	css: ['@/assets/styles/index.scss'],
 
 	runtimeConfig:
 	{
-        JWT_SECRET  : process.env.NUXT_JWT_SECRET,
-        JWT_EXPIRES : process.env.NUXT_JWT_EXPIRES
+		JWT_SECRET  : process.env.NUXT_JWT_SECRET,
+		JWT_EXPIRES : process.env.NUXT_JWT_EXPIRES,
+
+		public:
+		{
+			BASE_URL : process.env.NUXT_BASE_URL,
+			API_URL  : process.env.NUXT_API_URL
+		}
 	},
 
 	vite:

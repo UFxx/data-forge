@@ -1,5 +1,13 @@
-<script setup>
+<script setup lang="ts">
 	useSeoMeta({ title: 'Data Forge'});
+
+	const nuxtApp = useNuxtApp();
+
+	nuxtApp.hook("page:finish", () => getScrollbarWidth());
+
+	const handleResize = useDebounceFn(() => getScrollbarWidth(), 200);
+
+	useEventListener('resize', handleResize);
 </script>
 
 

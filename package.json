@@ -12,6 +12,11 @@
 		"db:migrate": "drizzle-kit migrate"
 	},
 	"dependencies": {
+		"@pinia/nuxt": "^1.0.2",
+		"@regle/nuxt": "^1.29.1",
+		"@vueuse/components": "^14.4.0",
+		"@vueuse/core": "^14.4.0",
+		"@vueuse/nuxt": "^14.4.0",
 		"bcrypt": "^6.0.0",
 		"better-sqlite3": "^13.0.3",
 		"drizzle-orm": "^0.45.2",
