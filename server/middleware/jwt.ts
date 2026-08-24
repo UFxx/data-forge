@@ -4,7 +4,7 @@ export default defineEventHandler((e) =>
 	{
 		const url = e.path;
 
-		const publicRoutes = ['/', '/login', '/registration', '/api/login', '/api/registration']
+		const publicRoutes = ['/', '/login', '/registration', '/api/login', '/api/registration'];
 
 		if (publicRoutes.includes(url))
 			return;

@@ -1,13 +1,20 @@
 export const useRequest = async <T>(
-	url     : string,
-	options : object,
-	isSsr   : boolean = false,
+	url      : string,
+	options? : Record<string, any>,
 ) =>
 {
 	const baseApiUrl = useRuntimeConfig().public.BASE_URL + useRuntimeConfig().public.API_URL;
+	const token      = useCookie('forgeJWT').value;
 
-	if (!isSsr)
-		return await $fetch<T>(baseApiUrl + url, { ...options });
-	else
-		return useFetch<T>(baseApiUrl + url, { ...options });
+	const headers    = {
+		...(token ? { Authorization: `Bearer ${token}` } : {}),
+		...options?.headers
+	};
+
+	return await $fetch<T>(baseApiUrl + url,
+		{
+			...options,
+			headers
+		}
+	);
 };

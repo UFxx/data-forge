@@ -1,4 +1,4 @@
-import { type LoginForm, type LoginFormResponse } from "~/types/loginForm"
+import type { LoginForm, LoginFormResponse } from "~/types/loginForm"
 
 export default {
 	login: async (payload: LoginForm) => await useRequest<LoginFormResponse>('/login',

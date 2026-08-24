@@ -1,31 +1,26 @@
 <script setup lang="ts">
-	import type { LoginForm, LoginFormResponse } from '~/types/loginForm';
+	import type { RegistrationForm } from '~/types/rgistrationForm';
+	import type { BaseResponse } from '~/types/baseResponse';
 
-	const { login : loginApi } = useApi();
-	const userStore            = useUserStore();
+	const { registration : registrationApi } = useApi();
 
-	const loginForm = ref<LoginForm>(
+	const registrationForm = ref<RegistrationForm>(
 		{
 			login    : null,
 			password : null
 		}
 	);
 
-	const forgeJWTCookie = useCookie('forgeJWT', { default: () => '' });
-
-	const login = async () =>
+	const registration = async () =>
 	{
 		try
 		{
-			const response = <LoginFormResponse>await loginApi.login(loginForm.value);
+			const response = <BaseResponse>await registrationApi.registration(registrationForm.value);
 
 			if (response.success)
 			{
-				forgeJWTCookie.value = response.token;
-				userStore.setUserLogin(response.login);
-
+				navigateTo('/login');
 				console.log(response.message);
-				navigateTo('/');
 			}
 
 		}
@@ -40,13 +35,13 @@
 <template>
 	<div class="login">
 		<div class="input-wr">
-			<label for="login-input-username">Логин</label>
+			<label for="login-input-username">Регистрация</label>
 			<input
 				type="text"
 				id="login-input-username"
 				autocomplete="username"
 				placeholder="Alex"
-				v-model="loginForm.login"
+				v-model="registrationForm.login"
 			/>
 		</div>
 		<div class="input-wr">
@@ -54,11 +49,11 @@
 			<input
 				type="password"
 				id="login-input-password"
-				v-model="loginForm.password"
+				v-model="registrationForm.password"
 			/>
 		</div>
 
-		<button type="button" @click="login">Войти</button>
+		<button type="button" @click="registration">Зарегистрироваться</button>
 	</div>
 </template>
 
