@@ -31,10 +31,10 @@ export const useUserStore = defineStore('userStore',
 		return {
 			userLogin,
 
-			getCurrentUser,
-
 			logout,
-			setUserLogin
+			setUserLogin,
+
+			getCurrentUser
 		}
 	}
 );

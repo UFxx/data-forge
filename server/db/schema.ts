@@ -1,4 +1,4 @@
-import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
 export const users = sqliteTable('users',
 	{
@@ -7,3 +7,14 @@ export const users = sqliteTable('users',
 		password : text('password').notNull()
 	}
 );
+
+export const files = sqliteTable('files',
+	{
+		id          : text('id').primaryKey(),
+		name        : text('name').notNull(),
+		path        : text('path'),
+		userId      : text('user_id').notNull().references(() => users.id),
+		uniqueName  : text('unique_name').notNull().unique(),
+		isProcessed : integer('is_processed', { mode: 'boolean' }).default(true).notNull(),
+	}
+)

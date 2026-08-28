@@ -6,7 +6,8 @@ export const useRequest = async <T>(
 	const baseApiUrl = useRuntimeConfig().public.BASE_URL + useRuntimeConfig().public.API_URL;
 	const token      = useCookie('forgeJWT').value;
 
-	const headers    = {
+	const headers =
+	{
 		...(token ? { Authorization: `Bearer ${token}` } : {}),
 		...options?.headers
 	};

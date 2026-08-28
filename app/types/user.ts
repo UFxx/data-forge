@@ -1,9 +1,3 @@
-export interface User
-{
-	login: string;
-};
+export interface User { login: string; };
 
-export interface UserResponse
-{
-	login: string;
-}
+export interface UserResponse { login: string; };
