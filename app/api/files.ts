@@ -9,5 +9,14 @@ export default {
 		}
 	),
 
-	fetch: async () => await useRequest<FilesResponse>('/files')
+	fetch: async () => await useRequest<FilesResponse>('/files'),
+
+	delete: async (id: string) => await useRequest<BaseResponse>(`/files/${id}`, { method: 'DELETE' }),
+
+	rename: async (id: string, newName: string) => await useRequest<BaseResponse>(`/files/${id}`,
+		{
+			method: 'PATCH',
+			body: { newName }
+		}
+	)
 }

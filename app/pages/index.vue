@@ -17,10 +17,13 @@
 	{
 		if (!file.value) return;
 
-		const response = await filesStore.upload(file.value)
+		const response = await filesStore.uploadFile(file.value)
 
 		if (response)
+		{
 			file.value = undefined;
+			navigateTo('/processing');
+		}
 	};
 
 	await filesStore.fetchFiles();
@@ -45,8 +48,7 @@
 			v-for="file in filesStore.files"
 			:key="file.id"
 		>
-			<p>{{ file.name }}</p>
-			<p>{{ file.isProcessed }}</p>
+			<File :file />
 		</div>
 	</div>
 </template>

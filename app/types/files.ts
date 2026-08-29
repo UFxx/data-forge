@@ -7,6 +7,6 @@ export interface FileItem
 
 export interface FilesResponse
 {
-	success: boolean,
-	data: FileItem[]
+	success : boolean,
+	data    : FileItem[]
 };

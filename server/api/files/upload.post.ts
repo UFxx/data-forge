@@ -25,7 +25,7 @@ export default defineEventHandler(async (e) =>
 		await mkdir('uploads', { recursive: true });
 		await writeFile(filePath, filePart.data);
 
-		await db.insert(files).values(
+		const file = await db.insert(files).values(
 			{
 				id          : randomFileId,
 				name        : filePart.filename,
