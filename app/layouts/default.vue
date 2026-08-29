@@ -1,8 +1,8 @@
 <script setup lang="ts">
 	useSeoMeta({ title: 'Data Forge'});
 
-	const nuxtApp   = useNuxtApp();
-	const userStore = useUserStore();
+	const nuxtApp        = useNuxtApp();
+	const userStore      = useUserStore();
 
 	nuxtApp.hook("page:finish", () => { getScrollbarWidth(); });
 
@@ -16,11 +16,13 @@
 
 <template>
 	<div class="default-layout">
-		<Header />
 		<main>
-			<slot />
+			<div class="container">
+				<Transition name="room-top">
+					<NuxtPage />
+				</Transition>
+			</div>
 		</main>
-		<Footer />
 	</div>
 
 	<PopupWrapper />
@@ -29,10 +31,16 @@
 <style lang="scss">
 	.default-layout
 	{
-		display: flex;
 		min-height: 100vh;
+
+		display: flex;
 		flex-direction: column;
 
-		main { flex: 1; }
+		main
+		{
+			background-color: $white;
+
+			flex: 1;
+		}
 	}
 </style>

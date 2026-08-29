@@ -4,18 +4,15 @@
 
 	const { registration : registrationApi } = useApi();
 
-	const registrationForm = ref<RegistrationForm>(
-		{
-			login    : null,
-			password : null
-		}
-	);
+	const isLoading = ref(false);
 
-	const registration = async () =>
+	const registration = async (data: RegistrationForm) =>
 	{
+		isLoading.value = true;
+
 		try
 		{
-			const response = <BaseResponse>await registrationApi.registration(registrationForm.value);
+			const response = <BaseResponse>await registrationApi.registration(data);
 
 			if (response.success)
 			{
@@ -29,44 +26,43 @@
 			console.error(err);
 			console.log(err.data.message);
 		}
+		finally { isLoading.value = false; }
 	}
 </script>
 
 <template>
-	<div class="login">
-		<div class="input-wr">
-			<label for="login-input-username">Регистрация</label>
-			<input
-				type="text"
-				id="login-input-username"
-				autocomplete="username"
-				placeholder="Alex"
-				v-model="registrationForm.login"
-			/>
-		</div>
-		<div class="input-wr">
-			<label for="login-input-password">Пароль</label>
-			<input
-				type="password"
-				id="login-input-password"
-				v-model="registrationForm.password"
-			/>
-		</div>
-
-		<button type="button" @click="registration">Зарегистрироваться</button>
+	<div class="registration-wr">
+		<AuthForm
+			title="Создайте аккаунт"
+			buttonText="Создать аккаунт"
+			loginPlaceholder="Alex"
+			passwordPlaceholder="Введите пароль"
+			:isLoading
+			@submit="registration"
+		>
+			<div class="separator" />
+			<p class="footer">
+				Уже есть аккаунт?
+				<NuxtLink
+					class="link"
+					to="/login"
+				>
+					Войти
+				</NuxtLink>
+			</p>
+		</AuthForm>
 	</div>
 </template>
 
 <style lang='scss' scoped>
-	.input-wr
+	@use '~/assets/styles/components/auth-form-footer.scss';
+
+	.registration-wr
 	{
-		width: max-content;
+		height: 100vh;
 
-		row-gap: 10px;
 		display: flex;
-		flex-direction: column;
-
-		input { border: 1px solid white; }
+		align-items: center;
+		justify-content: center;
 	}
-
 </style>

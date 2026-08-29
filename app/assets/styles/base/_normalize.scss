@@ -1,4 +1,4 @@
-@import './variables';
+@use './variables' as *;
 
 *,
 *::after,
@@ -18,9 +18,7 @@ html
 
 body
 {
-	color: $white;
 	min-height: 100vh;
-	line-height: 1.5;
 	text-rendering: optimizeSpeed;
 }
 

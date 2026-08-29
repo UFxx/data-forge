@@ -1,0 +1,64 @@
+@use './mixins' as *;
+
+// Fade
+.fade-enter-active,
+.fade-leave-active { @include tr(.1, opacity, transform) };
+
+.fade-enter-from
+{
+	opacity: 0;
+	transform: translateY(-5px);
+};
+
+.fade-leave-to
+{
+	opacity: 0;
+	transform: translateY(5px);
+};
+
+// Room top
+.room-top-enter-active,
+.room-top-leave-active
+{
+	width: 100%;
+	margin: 0 auto;
+	max-width: 1360px;
+	animation-duration: 0.3s;
+	animation-fill-mode: both;
+	animation-timing-function: ease;
+
+	position: absolute;
+}
+
+.room-top-enter-active
+{
+	animation-name: rotateRoomTopIn;
+	transform-origin: 50% 0%;
+}
+
+.room-top-leave-active
+{
+	animation-name: rotateRoomTopOut;
+	transform-origin: 50% 100%;
+}
+
+
+@keyframes rotateRoomTopOut
+{
+	from {}
+	to
+	{
+		opacity: 0.3;
+		transform: translateY(-100%) rotateX(-90deg);
+	}
+}
+
+@keyframes rotateRoomTopIn
+{
+	from
+	{
+		opacity: 0.3;
+		transform: translateY(100%) rotateX(90deg);
+	}
+	to {}
+};

@@ -4,20 +4,17 @@
 	const { login : loginApi } = useApi();
 	const userStore            = useUserStore();
 
-	const loginForm = ref<LoginForm>(
-		{
-			login    : null,
-			password : null
-		}
-	);
+	const isLoading = ref(false);
 
 	const forgeJWTCookie = useCookie('forgeJWT', { default: () => '' });
 
-	const login = async () =>
+	const login = async (data: LoginForm) =>
 	{
+		isLoading.value = true;
+
 		try
 		{
-			const response = <LoginFormResponse>await loginApi.login(loginForm.value);
+			const response = <LoginFormResponse>await loginApi.login(data);
 
 			if (response.success)
 			{
@@ -34,44 +31,43 @@
 			console.error(err);
 			console.log(err.data.message);
 		}
+		finally { isLoading.value = false; }
 	}
 </script>
 
 <template>
-	<div class="login">
-		<div class="input-wr">
-			<label for="login-input-username">Логин</label>
-			<input
-				type="text"
-				id="login-input-username"
-				autocomplete="username"
-				placeholder="Alex"
-				v-model="loginForm.login"
-			/>
-		</div>
-		<div class="input-wr">
-			<label for="login-input-password">Пароль</label>
-			<input
-				type="password"
-				id="login-input-password"
-				v-model="loginForm.password"
-			/>
-		</div>
-
-		<button type="button" @click="login">Войти</button>
+	<div class="login-wr">
+		<AuthForm
+			title="С возвращением"
+			buttonText="Вход"
+			loginPlaceholder="Alex"
+			passwordPlaceholder="Введите пароль"
+			:isLoading
+			@submit="login"
+		>
+			<div class="separator" />
+			<p class="footer">
+				Нет аккаунта?
+				<NuxtLink
+					class="link"
+					to="/registration"
+				>
+					Зарегистрироваться
+				</NuxtLink>
+			</p>
+		</AuthForm>
 	</div>
 </template>
 
 <style lang='scss' scoped>
-	.input-wr
+	@use '~/assets/styles/components/auth-form-footer.scss';
+
+	.login-wr
 	{
-		width: max-content;
+		height: 100vh;
 
-		row-gap: 10px;
 		display: flex;
-		flex-direction: column;
-
-		input { border: 1px solid white; }
+		align-items: center;
+		justify-content: center;
 	}
-
 </style>

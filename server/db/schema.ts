@@ -14,7 +14,16 @@ export const files = sqliteTable('files',
 		name        : text('name').notNull(),
 		path        : text('path'),
 		userId      : text('user_id').notNull().references(() => users.id),
+		folderId    : text('folder_id').references(() => folders.id),
 		uniqueName  : text('unique_name').notNull().unique(),
 		isProcessed : integer('is_processed', { mode: 'boolean' }).default(true).notNull(),
 	}
-)
+);
+
+export const folders = sqliteTable('folders',
+	{
+		id     : text('id').primaryKey(),
+		name   : text('name').notNull(),
+		userId : text('user_id').notNull().references(() => users.id)
+	}
+);

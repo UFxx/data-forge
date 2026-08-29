@@ -39,6 +39,8 @@ export default defineNuxtConfig({
 					additionalData      : `
 						@use "@/assets/styles/base/_variables.scss" as *;
 						@use "@/assets/styles/base/_mixins.scss" as *;
+						@use "@/assets/styles/base/_typography.scss" as *;
+						@use "@/assets/styles/base/_transitions.scss" as *;
 						@use "@/assets/styles/base/_fonts.scss";
 						@use "@/assets/styles/base/_normalize.scss";
 					`,

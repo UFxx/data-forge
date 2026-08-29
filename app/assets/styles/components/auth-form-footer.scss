@@ -1,0 +1,21 @@
+@use '../base/variables' as *;
+
+.separator
+{
+	height: 1px;
+	background-color: #E4E4E7;
+}
+
+.footer
+{
+	color: $gray;
+	text-align: center;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.link
+{
+	color: $black;
+	font-weight: 500;
+}
