@@ -20,7 +20,7 @@
 	.profile
 	{
 		height: max-content;
-		border: 1px solid #E4E4E7;
+		border: 1px solid $lighter-gray;
 		padding: 16px;
 		border-radius: 8px;
 		box-shadow: 0 1px 3px 0 rgba(black, 0.1);

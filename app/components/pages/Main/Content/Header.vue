@@ -33,10 +33,10 @@
 				placeholder="Поиск файлов"
 			>
 		</div>
-		<UiButton color="white">
+		<!-- <UiButton color="white">
 			<IconsFilter />
 			Фильтр
-		</UiButton>
+		</UiButton> -->
 		<label class="upload-wr">
 			<UiButton class="upload-button">
 				<IconsUpload />
@@ -54,7 +54,7 @@
 <style scoped lang='scss'>
 	.header
 	{
-		border: 1px solid #E4E4E7;
+		border: 1px solid $lighter-gray;
 		padding: 16px;
 		border-radius: 8px;
 
@@ -96,7 +96,7 @@
 	{
 		width: 100%;
 		padding: 12px 0 12px 36px;
-		border: 1px solid #E4E4E7;
+		border: 1px solid $lighter-gray;
 		border-radius: 8px;
 	}
 

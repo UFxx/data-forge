@@ -69,7 +69,7 @@
 	.form-container
 	{
 		width: 400px;
-		border: 1px solid #E4E4E7;
+		border: 1px solid $lighter-gray;
 		padding: 32px;
 		border-radius: 8px;
 		box-shadow: 0 1px 2px -1px rgba($black, 0.1);

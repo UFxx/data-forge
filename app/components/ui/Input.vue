@@ -64,7 +64,7 @@
 
 	.input
 	{
-		border: 1px solid #E4E4E7;
+		border: 1px solid $lighter-gray;
 		padding: 12px;
 		font-size: 14px;
 		max-height: 44px;
