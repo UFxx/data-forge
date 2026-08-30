@@ -57,6 +57,8 @@
 			color: $black;
 			border: 1px solid #E4E4E7;
 			background-color: $white;
+
+			&:hover { opacity: 0.7; }
 		}
 	}
 </style>

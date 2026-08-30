@@ -1,7 +1,6 @@
 <script setup lang="ts">
 	const filesStore = useFilesStore();
 
-
 	const uploadHandler = async (e: Event) =>
 	{
 		const input = e.target as HTMLInputElement;
@@ -24,45 +23,36 @@
 </script>
 
 <template>
-	<div class="content">
-		<div class="container">
-			<div class="input-wr">
-				<IconsSearch class="search-icon" />
-				<input
-					class="input"
-					type="text"
-					ref="searchInputRef"
-					placeholder="Поиск файлов"
-				>
-			</div>
-			<UiButton color="white">
-				<IconsFilter />
-				Фильтр
-			</UiButton>
-			<label class="upload-wr">
-				<UiButton class="upload-button">
-					<IconsUpload />
-				</UiButton>
-				<input
-					class="upload-input"
-					type="file"
-					accept=".csv"
-					@change="uploadHandler"
-				>
-			</label>
+	<div class="header">
+		<div class="input-wr">
+			<IconsSearch class="search-icon" />
+			<input
+				class="input"
+				type="text"
+				ref="searchInputRef"
+				placeholder="Поиск файлов"
+			>
 		</div>
+		<UiButton color="white">
+			<IconsFilter />
+			Фильтр
+		</UiButton>
+		<label class="upload-wr">
+			<UiButton class="upload-button">
+				<IconsUpload />
+			</UiButton>
+			<input
+				class="upload-input"
+				type="file"
+				accept=".csv"
+				@change="uploadHandler"
+			>
+		</label>
 	</div>
 </template>
 
 <style scoped lang='scss'>
-	.content
-	{
-		display: flex;
-		row-gap: 16px;
-		flex-direction: column;
-	}
-
-	.container
+	.header
 	{
 		border: 1px solid #E4E4E7;
 		padding: 16px;

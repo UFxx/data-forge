@@ -19,6 +19,7 @@
 <style scoped lang='scss'>
 	.profile
 	{
+		height: max-content;
 		border: 1px solid #E4E4E7;
 		padding: 16px;
 		border-radius: 8px;

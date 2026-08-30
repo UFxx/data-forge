@@ -7,7 +7,7 @@
 <template>
 	<div class="index-page">
 		<PagesMainProfile />
-		<PagesMainContent />
+		<PagesMainContent  />
 	</div>
 </template>
 

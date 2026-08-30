@@ -25,10 +25,11 @@ export default defineEventHandler(async (e) =>
 		await mkdir('uploads', { recursive: true });
 		await writeFile(filePath, filePart.data);
 
-		const file = await db.insert(files).values(
+		await db.insert(files).values(
 			{
 				id          : randomFileId,
 				name        : filePart.filename,
+				size        : filePart.data.length,
 				path        : filePath,
 				userId      : e.context.userId,
 				uniqueName  : uniqueFilename,
