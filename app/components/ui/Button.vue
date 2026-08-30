@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	withDefaults(
 		defineProps<{
-			color?    : 'black' | 'white',
+			color?    : 'black' | 'white' | 'red',
 			disabled? : boolean
 		}>(),
 		{
@@ -27,7 +27,6 @@
 		padding: 12px;
 		font-size: 14px;
 		font-weight: 500;
-		line-height: 20px;
 		border-radius: 8px;
 
 		display: flex;
@@ -36,7 +35,7 @@
 		flex-shrink: 0;
 		justify-content: center;
 
-		@include tr(0.3, opacity);
+		@include tr(0.3, opacity, background-color);
 
 		&:hover { opacity: 0.85; }
 
@@ -59,6 +58,14 @@
 			background-color: $white;
 
 			&:hover { opacity: 0.7; }
+		}
+
+		&.red
+		{
+			color: $white;
+			background-color: red;
+
+			&:hover { background-color: darken(red, 5); }
 		}
 	}
 </style>

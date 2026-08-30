@@ -25,7 +25,13 @@
 		</main>
 	</div>
 
-	<PopupWrapper />
+	<ClientOnly>
+		<Teleport to="main">
+			<Transition name="fade">
+				<PopupWrapper />
+			</Transition>
+		</Teleport>
+	</ClientOnly>
 </template>
 
 <style lang="scss">

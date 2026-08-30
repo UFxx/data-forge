@@ -59,7 +59,6 @@
 		font-size: 14px;
 		user-select: none;
 		font-weight: 500;
-		line-height: 20px;
 	}
 
 	.input

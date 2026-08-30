@@ -8,7 +8,7 @@
 			<p>Все файлы</p>
 		</div>
 		<TransitionGroup name="fade">
-			<PagesMainContentFile
+			<PagesMainFile
 				v-for="file in filesStore.files"
 				:key="file.id"
 				:id="file.id"

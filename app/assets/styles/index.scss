@@ -4,8 +4,11 @@ body
 {
 	color: $black;
 	font-size: 14px;
+	line-height: 20px;
 	font-family: $Inter;
 	background-color: $white;
+
+	&:has(.popup-container) { @include scroll-lock(); }
 }
 
 section
@@ -26,4 +29,10 @@ section
 
 	&:has(.login-wr),
 	&:has(.registration-wr) { padding-top: 0; }
+}
+
+.base-popup
+{
+	border-radius: 12px;
+	background-color: $white;
 }

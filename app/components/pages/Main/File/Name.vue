@@ -95,7 +95,6 @@
 	.name
 	{
 		font-weight: 500;
-		line-height: 20px;
 
 		display: flex;
 		column-gap: 12px;

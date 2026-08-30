@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	const filesStore = useFilesStore();
+	const popupsStore = usePopupsStore();
 
 	const props = defineProps<{
 		id          : string,
@@ -20,12 +20,21 @@
 		isMenuOpened.value = false;
 	};
 
-	const deleteFile = async () => await filesStore.deleteFile(props.id);
+	const openDeleteFilePopup = () =>
+	{
+		popupsStore.setPopupData(
+			{
+				name : props.name,
+				id   : props.id
+			}
+		);
+		popupsStore.togglePopup('deleteFile', true);
+	}
 </script>
 
 <template>
 	<div class="file">
-		<PagesMainContentFileName
+		<PagesMainFileName
 			:id
 			:name
 			:isProcessed
@@ -42,12 +51,12 @@
 			</button>
 		</div>
 		<Transition name="fade">
-			<PagesMainContentFileOptions
+			<PagesMainFileOptions
 				v-if="isMenuOpened"
 				ref="menuRef"
 				class="options"
 				@rename="toggleRenameMode"
-				@delete="deleteFile"
+				@delete="openDeleteFilePopup"
 			/>
 		</Transition>
 	</div>
