@@ -10,7 +10,7 @@ export default defineEventHandler(async (e) =>
 			throw createError(
 				{
 					statusCode: 400,
-					message: 'Параметр id является обязательным'
+					message: 'Параметр ID является обязательным'
 				}
 			);
 

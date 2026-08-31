@@ -62,3 +62,16 @@
 	}
 	to {}
 };
+
+// Toaster
+.toaster-move,
+.toaster-enter-active,
+.toaster-leave-active { @include tr(.3, opacity, transform) }
+
+.toaster-enter-from,
+.toaster-leave-to,
+.toaster-leave-active
+{
+	opacity: 0;
+	transform: translateX(100vw);
+}

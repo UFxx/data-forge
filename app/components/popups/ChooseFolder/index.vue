@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { ChooseFolderData } from '~/types/popups';
+
 	const popupsStore  = usePopupsStore();
 	const filesStore   = useFilesStore();
 	const foldersStore = useFoldersStore();
+	const popupData    = popupsStore.popupData as ChooseFolderData;
 
 	const currentFolderId = ref<string | null>(null);
 	const isLoading       = ref(false);
@@ -17,7 +20,7 @@
 			if (!currentFolderId.value)
 				return;
 
-			const response = await filesStore.moveFile(popupsStore.popupData.fileId, currentFolderId.value);
+			const response = await filesStore.moveFile(popupData.fileId, currentFolderId.value);
 
 			if (response?.success)
 			{
@@ -33,8 +36,7 @@
 
 <template>
 	<div class="choose-folder base-popup">
-		<p class="g-title">Выберите папку</p>
-
+		<UiTitle :medium="true">Выберите папку</UiTitle>
 		<div class="folders">
 			<PopupsChooseFolder
 				v-for="folder in foldersStore.folders"
@@ -43,7 +45,7 @@
 				:name="folder.name"
 				:filesCount="folder.filesCount"
 				:currentFolderId
-				:disabled="popupsStore.popupData.currentFolderId === folder.id"
+				:disabled="popupData.currentFolderId === folder.id"
 				@choose="chooseFolder"
 			/>
 		</div>
@@ -67,11 +69,6 @@
 </template>
 
 <style scoped lang='scss'>
-	.choose-folder
-	{
-		padding: 16px;
-	}
-
 	.folders
 	{
 		border: 1px solid $lighter-gray;

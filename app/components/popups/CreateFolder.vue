@@ -37,7 +37,9 @@
 
 <template>
 	<div class="create-folder base-popup">
-		<p class="g-title">Создать папку</p>
+		<UiTitle :medium="true">
+			Создать папку
+		</UiTitle>
 		<UiInput
 			label="Название папки"
 			placeholder="Работа"
@@ -62,7 +64,3 @@
 		</div>
 	</div>
 </template>
-
-<style scoped lang='scss'>
-	.create-folder { padding: 16px; }
-</style>

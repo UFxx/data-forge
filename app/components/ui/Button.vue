@@ -57,9 +57,9 @@
 		&.red
 		{
 			color: $white;
-			background-color: red;
+			background-color: $red;
 
-			&:hover { background-color: darken(red, 5); }
+			&:hover { background-color: $red, 5; }
 		}
 
 		&:disabled

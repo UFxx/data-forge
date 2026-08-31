@@ -38,7 +38,7 @@
 
 <template>
 	<div class="form-container">
-		<UiTitle :text="title" />
+		<UiTitle>{{ title }}</UiTitle>
 		<div class="form">
 			<UiInput
 				label="Логин"

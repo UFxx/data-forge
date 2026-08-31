@@ -23,7 +23,7 @@
 	<div class="wrapper">
 		<button
 			class="menu-button"
-			@click="isMenuOpened=true"
+			@click.stop="isMenuOpened=true"
 		>
 			<IconsMenu />
 		</button>
@@ -106,9 +106,9 @@
 
 		&--delete
 		{
-			color: red;
+			color: $red;
 
-			&:hover { color: red; }
+			&:hover { color: $red; }
 		}
 	}
 </style>

@@ -1,7 +1,9 @@
+import type { PopupDataMap, PopupName } from "~/types/popups";
+
 export const usePopupsStore = defineStore('popups', () => {
 	const { popups }   = usePopupsRegistry();
 
-	const popupData       = ref<any | null>(null);
+	const popupData       = ref<PopupDataMap[PopupName] | null>(null);
 	const activePopupName = ref<PopupName | null>(null);
 
 	const activePopupComponent = computed(() => {
@@ -10,9 +12,9 @@ export const usePopupsStore = defineStore('popups', () => {
 		: null;
 	});
 
-	const togglePopup = (popupName: PopupName, value: boolean) => {
+	const togglePopup = <T extends PopupName>(popupName: T, value: boolean) => {
 		if (!value)
-			{
+		{
 			activePopupName.value = null;
 			setPopupData(null);
 			return;
@@ -23,7 +25,7 @@ export const usePopupsStore = defineStore('popups', () => {
 
 	const closeAnyPopup = () => activePopupName.value = null;
 
-	const setPopupData = (data: any) => popupData.value = data;
+	const setPopupData = <T extends PopupName> (data: PopupDataMap[T] | null) => popupData.value = data;
 
 	return {
 		popupData,

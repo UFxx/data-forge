@@ -34,7 +34,7 @@
 </script>
 
 <template>
-	<dix class="folder">
+	<div class="folder">
 		<div class="header">
 			<div class="folder-icon-wr">
 				<IconsFolder />
@@ -44,14 +44,11 @@
 				@delete="openDeleteConfirmationPopup"
 			/>
 		</div>
-		<NuxtLink
-			:to="`/folder/${id}`"
-			class="meta"
-		>
+		<div class="meta">
 			<p class="title">{{ name }}</p>
 			<p class="files-count">{{ pluralize(filesCount, ['файл', 'файла', 'файлов']) }}</p>
-		</NuxtLink>
-	</dix>
+		</div>
+	</div>
 </template>
 
 <style scoped lang='scss'>
@@ -59,6 +56,7 @@
 	{
 		width: 230px;
 		border: 1px solid $lighter-gray;
+		cursor: pointer;
 		padding: 16px;
 		border-radius: 12px;
 		background-color: $white;
@@ -116,8 +114,6 @@
 		row-gap: 4px;
 		display: flex;
 		flex-direction: column;
-
-		&:hover { text-decoration: underline; }
 	}
 
 	.title { font-weight: 500; }

@@ -18,12 +18,16 @@ export const useFilesStore = defineStore('filesStore', () =>
 				if (response.success)
 				{
 					fileForProcessing.value = await data.text();
-					console.log(response.message);
+					useToast(response.message);
 				}
 
 				return response.success;
 			}
-			catch (err: any) { console.error(err); }
+			catch (err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		const fetchFiles = async () =>
@@ -47,10 +51,14 @@ export const useFilesStore = defineStore('filesStore', () =>
 				if (response.success)
 				{
 					deleteFileLocaly(id);
-					console.log(response.message);
+					useToast(response.message);
 				}
 			}
-			catch(err: any) { console.error(err); }
+			catch(err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		const renameFile = async (id: string, newName: string) =>
@@ -61,12 +69,12 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 				if (response.success && files.value)
 				{
-					const file = files.value?.find((file) => file.id === id);
+					const file = files.value?.find((file: FileItem) => file.id === id);
 
 					if (file)
 						file.name = newName;
 
-					console.log(response.message);
+					useToast(response.message);
 				}
 
 				return response;
@@ -80,6 +88,9 @@ export const useFilesStore = defineStore('filesStore', () =>
 			{
 				const response = await filesApi.move(fileId, folderId);
 
+				if (response.success)
+					useToast(response.message);
+
 				return response;
 			}
 			catch (err: any) { console.error(err) }
@@ -90,7 +101,7 @@ export const useFilesStore = defineStore('filesStore', () =>
 		const deleteFileLocaly = (id: string) =>
 		{
 			if (files.value)
-				setFiles(files.value?.filter((file) => file.id !== id));
+				setFiles(files.value?.filter((file: FileItem) => file.id !== id));
 		};
 
 		const addFile = (file: FileItem) => files.value?.push(file);

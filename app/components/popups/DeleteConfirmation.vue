@@ -10,7 +10,9 @@
 
 <template>
 	<div class="delete base-popup">
-		<p class="g-title">Вы действительно хотите удалить элемент?</p>
+		 <UiTitle :medium="true">
+			Вы действительно хотите удалить элемент?
+		 </UiTitle>
 		<p v-if="popupsStore.popupData?.name">
 			Имя элемента: <span class="element-name">"{{ popupsStore.popupData?.name }}"</span>
 		</p>
@@ -32,7 +34,5 @@
 </template>
 
 <style scoped lang='scss'>
-	.delete { padding: 16px; }
-
 	.element-name { font-weight: 500; }
 </style>

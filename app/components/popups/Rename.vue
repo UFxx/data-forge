@@ -1,10 +1,12 @@
 <script setup lang="ts">
 	import { minLength, required } from '@regle/rules';
+	import type { RenameData } from '~/types/popups';
 
 	const popupsStore = usePopupsStore();
+	const popupData   = popupsStore.popupData as RenameData;
 
-	const newName   = ref<string>(popupsStore.popupData.name);
-	const isLoading = ref(false);
+	const newName   = ref<string>(popupData.name);
+	const isLoading = ref<boolean>(false);
 
 	const { r$ } = useRegle(newName,
 		{
@@ -22,14 +24,14 @@
 
 		let finalName = newName.value.trim();
 
-		if (popupsStore.popupData.isFile && !finalName.endsWith('.csv'))
+		if (popupData.isFile && !finalName.endsWith('.csv'))
 			finalName = `${finalName}.csv`;
 
 		isLoading.value = true;
 
 		try
 		{
-			const response  = await popupsStore.popupData.renameFunction(popupsStore.popupData.id, finalName);
+			const response  = await popupData.renameFunction(popupData.id, finalName);
 				if (response)
 					popupsStore.closeAnyPopup();
 		}
@@ -41,7 +43,9 @@
 
 <template>
 	<div class="rename base-popup">
-		<p class="g-title">Переименовать элемент</p>
+		<UiTitle :medium="true">
+			Переименовать элемент
+		</UiTitle>
 		<UiInput
 			label="Новое имя"
 			placeholder="Пятый элемент"
@@ -67,7 +71,3 @@
 		</div>
 	</div>
 </template>
-
-<style scoped lang='scss'>
-	.rename { padding: 16px; }
-</style>

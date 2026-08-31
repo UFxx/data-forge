@@ -1,7 +1,12 @@
 <script setup lang="ts">
-	defineProps<{ text: string }>();
+	defineProps<{ medium?: boolean }>();
 </script>
 
 <template>
-	<p class="g-title">{{ text }}</p>
+	<p
+		class="g-title"
+		:class="{ 'medium': medium  }"
+	>
+		<slot />
+	</p>
 </template>

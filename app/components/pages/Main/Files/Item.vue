@@ -19,6 +19,7 @@
 				deleteFunction : filesStore.deleteFile
 			}
 		);
+
 		popupsStore.togglePopup('deleteConfirmation', true);
 	};
 

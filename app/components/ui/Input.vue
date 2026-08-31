@@ -83,16 +83,16 @@
 
 		&.error
 		{
-			color: red;
-			border-color: red;
+			color: $red;
+			border-color: $red;
 
-			&::placeholder { color: red; }
+			&::placeholder { color: $red; }
 		}
 	}
 
 	.error-label
 	{
-		color: red;
+		color: $red;
 		font-size: 12px;
 	}
 </style>

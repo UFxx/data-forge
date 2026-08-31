@@ -15,7 +15,6 @@
 	await userStore.getCurrentUser();
 </script>
 
-
 <template>
 	<div class="default-layout">
 		<main>
@@ -25,6 +24,8 @@
 				</Transition>
 			</div>
 		</main>
+
+		<Toaster />
 	</div>
 
 	<ClientOnly>

@@ -13,15 +13,17 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 				const response = await foldersApi.create(name);
 
 				if (response.success)
+				{
 					folders.value.push(
-					{
-						id         : response.data.folderId,
-						name       : name,
-						filesCount : 0
-					}
-				);
+						{
+							id         : response.data.folderId,
+							name       : name,
+							filesCount : 0
+						}
+					);
 
-				console.log(response.message);
+					useToast(response.message);
+				}
 
 				return response.success;
 			}
@@ -46,9 +48,12 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 				const response = await foldersApi.delete(id);
 
 				if (response.success)
-					folders.value = folders.value.filter(folder => folder.id !== id)
+				{
+					folders.value = folders.value.filter((folder: Folder) => folder.id !== id)
 
-				console.log(response.message);
+					useToast(response.message);
+				}
+
 			}
 			catch (err: any) { console.error(err); }
 		};
@@ -61,12 +66,12 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 
 				if (response.success)
 				{
-					const folder = folders.value?.find((folder) => folder.id === id);
+					const folder = folders.value?.find((folder: Folder) => folder.id === id);
 
 					if (folder)
 						folder.name = newName;
 
-					console.log(response.message);
+					useToast(response.message);
 				}
 
 				return response.success;

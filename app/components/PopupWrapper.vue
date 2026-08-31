@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	const popupsStore = usePopupsStore();
 
-	const isOpened = computed(() => popupsStore.activePopupName !== null);
+	const isOpened = computed<boolean>(() => popupsStore.activePopupName !== null);
 </script>
 
 <template>
@@ -81,7 +81,7 @@
 		{
 			opacity: 1;
 
-			svg { color: red; }
+			svg { color: $red; }
 		}
 
 		svg { @include tr(0.3, color); }
