@@ -74,12 +74,25 @@ export const useFilesStore = defineStore('filesStore', () =>
 			catch(err: any) { console.error(err); }
 		};
 
+		const moveFile = async (fileId: string, folderId: string) =>
+		{
+			try
+			{
+				const response = await filesApi.move(fileId, folderId);
+
+				return response;
+			}
+			catch (err: any) { console.error(err) }
+		};
+
 		const setFiles = (data: FileItem[]) => files.value = data;
+
 		const deleteFileLocaly = (id: string) =>
 		{
 			if (files.value)
 				setFiles(files.value?.filter((file) => file.id !== id));
 		};
+
 		const addFile = (file: FileItem) => files.value?.push(file);
 
 		return {
@@ -93,7 +106,8 @@ export const useFilesStore = defineStore('filesStore', () =>
 			uploadFile,
 			fetchFiles,
 			deleteFile,
-			renameFile
+			renameFile,
+			moveFile
 		}
 	}
 );

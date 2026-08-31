@@ -1,28 +1,86 @@
+import type { Folder } from "~/types/folders";
+
 export const useFoldersStore = defineStore('foldersStore', () =>
 	{
 		const { folders: foldersApi } = useApi();
 
-		const folders = ref(null);
+		const folders = ref<Folder[]>([]);
 
-		const createFolder = async (name) =>
+		const createFolder = async (name: string) =>
 		{
 			try
 			{
 				const response = await foldersApi.create(name);
 
-				// if (response.success)
-				// 	folders.push(...)
+				if (response.success)
+					folders.value.push(
+					{
+						id         : response.data.folderId,
+						name       : name,
+						filesCount : 0
+					}
+				);
+
+				console.log(response.message);
+
+				return response.success;
 			}
-			catch(err: any)
+			catch(err: any) { console.error(err); }
+		};
+
+		const fetchFolders = async () =>
+		{
+			try
 			{
-				console.error(err);
+				const response = await foldersApi.fetch()
+
+				if (response.success)
+					folders.value = response.data;
 			}
+			catch (err) { console.error(err); }
+		};
+
+		const deleteFolder = async (id: string) =>
+		{
+			try {
+				const response = await foldersApi.delete(id);
+
+				if (response.success)
+					folders.value = folders.value.filter(folder => folder.id !== id)
+
+				console.log(response.message);
+			}
+			catch (err: any) { console.error(err); }
+		};
+
+		const renameFolder = async (id: string, newName: string) =>
+		{
+			try
+			{
+				const response = await foldersApi.rename(id, newName);
+
+				if (response.success)
+				{
+					const folder = folders.value?.find((folder) => folder.id === id);
+
+					if (folder)
+						folder.name = newName;
+
+					console.log(response.message);
+				}
+
+				return response.success;
+			}
+			catch(err: any) { console.error(err); }
 		};
 
 		return {
 			folders,
 
-			createFolder
+			createFolder,
+			fetchFolders,
+			deleteFolder,
+			renameFolder
 		}
 	}
 );

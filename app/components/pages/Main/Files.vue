@@ -14,6 +14,7 @@
 				:id="file.id"
 				:name="file.name"
 				:size="file.size"
+				:folderId="file.folderId"
 				:isProcessed="file.isProcessed"
 			/>
 		</TransitionGroup>

@@ -1,6 +1,6 @@
 import { db } from "#db";
 import { files } from "#db/schema";
-import { randomUUID } from 'node:crypto'
+import { randomUUID } from 'node:crypto';
 import { writeFile, mkdir } from 'node:fs/promises';
 
 export default defineEventHandler(async (e) =>

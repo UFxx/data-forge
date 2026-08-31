@@ -9,6 +9,7 @@ export default defineEventHandler(async (e) =>
 				id          : files.id,
 				name        : files.name,
 				size        : files.size,
+				folderId    : files.folderId,
 				isProcessed : files.isProcessed
 			}
 			).from(files).where(eq(files.userId, e.context.userId));

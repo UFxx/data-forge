@@ -1,15 +1,37 @@
 <script setup lang="ts">
-	const popupsStore = usePopupsStore();
+	import { minLength, required } from '@regle/rules';
+
+	const popupsStore  = usePopupsStore();
 	const foldersStore = useFoldersStore();
 
-	const folderName = ref<string | null>();
-	const isLoading = ref<boolean>(false);
+	const folderName = ref<string>('');
+	const isLoading  = ref<boolean>(false);
+
+	const { r$ } = useRegle(folderName,
+		{
+			required: withMessage(required, 'Поле обяательно'),
+			minLength: withMessage(minLength(3), 'Название должно содержать минимум 3 символа')
+		}
+	);
 
 	const createFolder = async () =>
 	{
+		const { valid } = await r$.$validate();
+
+		if (!valid)
+			return;
+
 		isLoading.value = true;
-		await foldersStore.createFolder(folderName.value);
-		isLoading.value = false;
+
+		try
+		{
+			const response = await foldersStore.createFolder(folderName.value.trim());
+
+			if (response)
+				popupsStore.closeAnyPopup();
+		}
+		catch (err) { console.error(err) }
+		finally { isLoading.value = false; }
 	};
 </script>
 
@@ -20,6 +42,8 @@
 			label="Название папки"
 			placeholder="Работа"
 			v-model="folderName"
+			:error="r$.$errors[0]"
+			@submit="createFolder"
 		/>
 		<div class="buttons">
 			<UiButton
@@ -40,22 +64,5 @@
 </template>
 
 <style scoped lang='scss'>
-	.create-folder
-	{
-		min-width: 400px;
-		padding: 16px;
-
-		display: flex;
-		row-gap: 16px;
-		flex-direction: column;
-	}
-
-	.buttons
-	{
-		column-gap: 12px;
-		display: flex;
-		justify-content: space-between;
-
-		button { flex: 1; }
-	}
+	.create-folder { padding: 16px; }
 </style>

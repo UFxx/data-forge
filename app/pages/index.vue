@@ -1,7 +1,9 @@
 <script setup lang="ts">
-	const filesStore = useFilesStore();
+	const filesStore   = useFilesStore();
+	const foldersStore = useFoldersStore();
 
 	await filesStore.fetchFiles();
+	await foldersStore.fetchFolders();
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-	const popupsStore = usePopupsStore();
+	const popupsStore  = usePopupsStore();
+	const foldersStore = useFoldersStore();
 </script>
 
 <template>
@@ -20,6 +21,15 @@
 				Создать папку
 			</UiButton>
 		</div>
+		<div class="folders-list">
+			<PagesMainFoldersFolder
+				v-for="folder in foldersStore.folders"
+				:key="folder.id"
+				:id="folder.id"
+				:name="folder.name"
+				:filesCount="folder.filesCount"
+			/>
+		</div>
 	</div>
 </template>
 
@@ -30,6 +40,10 @@
 		padding: 20px 28px 20px 20px;
 		border-radius: 12px;
 		background-color: #F9F9FB;
+
+		row-gap: 20px;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.header
@@ -62,4 +76,13 @@
 	}
 
 	.add-folder { font-weight: 500; }
+
+	.folders-list
+	{
+		overflow-x: auto;
+		scrollbar-width: none;
+
+		display: flex;
+		column-gap: 12px;
+	}
 </style>

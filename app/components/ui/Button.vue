@@ -39,12 +39,6 @@
 
 		&:hover { opacity: 0.85; }
 
-		&:disabled
-		{
-			opacity: 0.85;
-			pointer-events: none;
-		}
-
 		&.black
 		{
 			color: $white;
@@ -66,6 +60,12 @@
 			background-color: red;
 
 			&:hover { background-color: darken(red, 5); }
+		}
+
+		&:disabled
+		{
+			pointer-events: none;
+			background-color: $light-gray;
 		}
 	}
 </style>

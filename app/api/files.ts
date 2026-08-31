@@ -2,7 +2,7 @@ import type { BaseResponse } from "~/types/baseResponse"
 import type { FilesResponse } from "~/types/files"
 
 export default {
-	upload: async (payload: FormData) => await useRequest<BaseResponse>('/files/upload',
+	upload: async (payload: FormData) => await useRequest<BaseResponse>('/files',
 		{
 			method: 'POST',
 			body: payload
@@ -10,13 +10,18 @@ export default {
 	),
 
 	fetch: async () => await useRequest<FilesResponse>('/files'),
-
 	delete: async (id: string) => await useRequest<BaseResponse>(`/files/${id}`, { method: 'DELETE' }),
-
 	rename: async (id: string, newName: string) => await useRequest<BaseResponse>(`/files/${id}`,
 		{
 			method: 'PATCH',
 			body: { newName }
+		}
+	),
+
+	move: async (fileId: string, folderId: string) => await useRequest<BaseResponse>(`/files/move/${fileId}`,
+		{
+			method: 'PATCH',
+			body: { folderId }
 		}
 	)
 }
