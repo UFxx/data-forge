@@ -2,7 +2,8 @@ export type PopupDataMap =
 {
 	deleteConfirmation : DeleteConfirmationData,
 	rename             : RenameData,
-	chooseFolder       : ChooseFolderData
+	chooseFolder       : ChooseFolderData,
+	createFolder       : null
 };
 
 export type PopupName = keyof PopupDataMap;

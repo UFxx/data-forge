@@ -79,7 +79,11 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 				return response;
 			}
-			catch(err: any) { console.error(err); }
+			catch(err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		const moveFile = async (fileId: string, folderId: string) =>
@@ -93,7 +97,11 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 				return response;
 			}
-			catch (err: any) { console.error(err) }
+			catch (err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		const setFiles = (data: FileItem[]) => files.value = data;

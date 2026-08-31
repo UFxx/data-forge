@@ -23,15 +23,12 @@
 
 		isLoading.value = true;
 
-		try
-		{
-			const response = await foldersStore.createFolder(folderName.value.trim());
+		const response = await foldersStore.createFolder(folderName.value.trim());
 
-			if (response)
-				popupsStore.closeAnyPopup();
-		}
-		catch (err) { console.error(err) }
-		finally { isLoading.value = false; }
+		if (response)
+			popupsStore.closeAnyPopup();
+
+		isLoading.value = false;
 	};
 </script>
 

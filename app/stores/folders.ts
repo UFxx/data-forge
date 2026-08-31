@@ -27,7 +27,11 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 
 				return response.success;
 			}
-			catch(err: any) { console.error(err); }
+			catch(err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		const fetchFolders = async () =>
@@ -44,7 +48,8 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 
 		const deleteFolder = async (id: string) =>
 		{
-			try {
+			try
+			{
 				const response = await foldersApi.delete(id);
 
 				if (response.success)
@@ -55,7 +60,11 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 				}
 
 			}
-			catch (err: any) { console.error(err); }
+			catch (err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		const renameFolder = async (id: string, newName: string) =>
@@ -76,7 +85,11 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 
 				return response.success;
 			}
-			catch(err: any) { console.error(err); }
+			catch(err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
 		};
 
 		return {

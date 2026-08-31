@@ -1,8 +1,7 @@
 <script setup lang="ts">
 	import type { RegistrationForm } from '~/types/rgistrationForm';
-	import type { BaseResponse } from '~/types/baseResponse';
 
-	const { registration : registrationApi } = useApi();
+	const userStore = useUserStore();
 
 	const isLoading = ref(false);
 
@@ -10,23 +9,15 @@
 	{
 		isLoading.value = true;
 
-		try
-		{
-			const response = <BaseResponse>await registrationApi.registration(data);
+		const response = await userStore.registration(data);
 
-			if (response.success)
-			{
-				navigateTo('/login');
-				console.log(response.message);
-			}
-
-		}
-		catch (err: any)
+		if (response && response.success)
 		{
-			console.error(err);
-			console.log(err.data.message);
+			navigateTo('/login');
+			console.log(response.message);
 		}
-		finally { isLoading.value = false; }
+
+		isLoading.value = false;
 	}
 </script>
 

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-	import type { LoginForm, LoginFormResponse } from '~/types/loginForm';
+	import type { LoginForm } from '~/types/loginForm';
 
-	const { login : loginApi } = useApi();
-	const userStore            = useUserStore();
+	const userStore = useUserStore();
 
 	const isLoading = ref(false);
 
@@ -12,26 +11,16 @@
 	{
 		isLoading.value = true;
 
-		try
+		const response = await userStore.login(data);
+
+		if (response && response.success)
 		{
-			const response = <LoginFormResponse>await loginApi.login(data);
-
-			if (response.success)
-			{
-				forgeJWTCookie.value = response.token;
-				userStore.setUserLogin(response.login);
-
-				console.log(response.message);
-				navigateTo('/');
-			}
-
+			forgeJWTCookie.value = response.token;
+			userStore.setUserLogin(response.login);
+			navigateTo('/');
 		}
-		catch (err: any)
-		{
-			console.error(err);
-			console.log(err.data.message);
-		}
-		finally { isLoading.value = false; }
+
+		isLoading.value = false;
 	}
 </script>
 

@@ -29,15 +29,11 @@
 
 		isLoading.value = true;
 
-		try
-		{
-			const response  = await popupData.renameFunction(popupData.id, finalName);
-				if (response)
-					popupsStore.closeAnyPopup();
-		}
-		catch (err: any) { console.error(err); }
-		finally { isLoading.value = false; }
+		const response  = await popupData.renameFunction(popupData.id, finalName);
+			if (response)
+				popupsStore.closeAnyPopup();
 
+		isLoading.value = false;
 	}
 </script>
 

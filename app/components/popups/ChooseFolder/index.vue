@@ -15,22 +15,19 @@ import type { ChooseFolderData } from '~/types/popups';
 	{
 		isLoading.value = true;
 
-		try
+		if (!currentFolderId.value)
+			return;
+
+		const response = await filesStore.moveFile(popupData.fileId, currentFolderId.value);
+
+		if (response?.success)
 		{
-			if (!currentFolderId.value)
-				return;
-
-			const response = await filesStore.moveFile(popupData.fileId, currentFolderId.value);
-
-			if (response?.success)
-			{
-				await foldersStore.fetchFolders();
-				await filesStore.fetchFiles();
-				popupsStore.closeAnyPopup();
-			}
+			await foldersStore.fetchFolders();
+			await filesStore.fetchFiles();
+			popupsStore.closeAnyPopup();
 		}
-		catch (err: any) { console.error(err); }
-		finally { isLoading.value = false; }
+
+		isLoading.value = false;
 	}
 </script>
 
