@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { FolderDetail } from '~/types/popups';
+
 	const popupsStore  = usePopupsStore();
 	const foldersStore = useFoldersStore();
 
@@ -30,11 +32,26 @@
 			}
 		);
 		popupsStore.togglePopup('rename', true);
+	};
+
+	const openFolder = () =>
+	{
+		popupsStore.setPopupData(
+			{
+				id         : props.id,
+				folderName : props.name,
+				filesCount : props.filesCount
+			}
+		);
+		popupsStore.togglePopup('folderDetail', true);
 	}
 </script>
 
 <template>
-	<div class="folder">
+	<div
+		class="folder"
+		@click="openFolder"
+	>
 		<div class="header">
 			<div class="folder-icon-wr">
 				<IconsFolder />

@@ -1,5 +1,6 @@
 import { type BaseResponse } from "~/types/baseResponse"
 import type { CreateFolderResponse, FoldersResponse } from "~/types/folders"
+import { type FilesResponse } from "~/types/files"
 
 export default {
 	create: async (name: string) => await useRequest<CreateFolderResponse>('/folders',
@@ -18,4 +19,6 @@ export default {
 			body: { newName }
 		}
 	),
+
+	fetchFolderById: async (id: string) => await useRequest<FilesResponse>(`/folders/${id}`)
 }

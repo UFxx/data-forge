@@ -92,13 +92,29 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 			}
 		};
 
+		const fetchFolderFiles = async (id: string) =>
+		{
+			try
+			{
+				const response = await foldersApi.fetchFolderById(id);
+
+				return response;
+			}
+			catch (err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
+		};
+
 		return {
 			folders,
 
 			createFolder,
 			fetchFolders,
 			deleteFolder,
-			renameFolder
+			renameFolder,
+			fetchFolderFiles
 		}
 	}
 );

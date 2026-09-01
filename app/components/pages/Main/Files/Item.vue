@@ -52,7 +52,7 @@
 	<div class="file">
 		<NuxtLink
 			class="name"
-			:to="id"
+			:to="`/file/${id}`"
 		>
 		<div class="icon-wr">
 			<IconsCSV />

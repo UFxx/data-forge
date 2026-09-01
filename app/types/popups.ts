@@ -1,9 +1,10 @@
 export type PopupDataMap =
 {
-	deleteConfirmation : DeleteConfirmationData,
 	rename             : RenameData,
 	chooseFolder       : ChooseFolderData,
-	createFolder       : null
+	createFolder       : null,
+	folderDetail       : FolderDetail,
+	deleteConfirmation : DeleteConfirmationData,
 };
 
 export type PopupName = keyof PopupDataMap;
@@ -28,4 +29,11 @@ export interface ChooseFolderData
 {
 	fileId           : string,
 	currentFolderId? : string | null
+};
+
+export interface FolderDetail
+{
+	id         : string,
+	folderName : string,
+	filesCount : number
 };
