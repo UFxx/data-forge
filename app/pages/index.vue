@@ -2,6 +2,8 @@
 	const filesStore   = useFilesStore();
 	const foldersStore = useFoldersStore();
 
+	const searchString = ref<string>('');
+
 	await filesStore.fetchFiles();
 	await foldersStore.fetchFolders();
 </script>
@@ -11,9 +13,9 @@
 		<PagesMainProfile />
 
 		<div class="content">
-			<PagesMainHeader />
+			<PagesMainHeader v-model="searchString" />
 			<PagesMainFolders />
-			<PagesMainFiles />
+			<PagesMainFiles :searchString />
 		</div>
 	</div>
 </template>

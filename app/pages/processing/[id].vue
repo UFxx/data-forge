@@ -33,13 +33,16 @@
 		>
 			<IconsBurger />
 		</div>
-		<Transition name="slide-right">
-			<PagesProcessingMenu
+
+		<Teleport to="body">
+			<Transition name="slide-right">
+				<PagesProcessingMenu
 				v-if="isMenuOpened"
 				:filePath="filesStore.fileForProcessing?.path || ''"
 				@toggleMenu="toggleMenu"
-			/>
-		</Transition>
+				/>
+			</Transition>
+		</Teleport>
 	</div>
 </template>
 
@@ -62,10 +65,7 @@
 
 		@include tr(0.3, padding, transform);
 
-		&.menu-opened
-		{
-			transform: translateX(-200px);
-		}
+		&.menu-opened { transform: translateX(-200px); }
 	}
 
 	.title

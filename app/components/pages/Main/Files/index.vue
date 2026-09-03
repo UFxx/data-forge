@@ -1,5 +1,20 @@
 <script setup lang="ts">
+	import type { FileItem } from '~/types/files';
 	const filesStore = useFilesStore();
+
+	const props = defineProps<{ searchString: string }>();
+
+	const displayedFiles = computed(() =>
+		{
+			const searchString = props.searchString;
+
+			if (!searchString)
+				return filesStore.files;
+
+			return filesStore.files?.filter((file: FileItem) =>
+				file.name.toLowerCase().startsWith(searchString.trim().toLowerCase()));
+		}
+	);
 </script>
 
 <template>
@@ -9,7 +24,7 @@
 		</div>
 		<TransitionGroup name="fade">
 			<PagesMainFilesItem
-				v-for="file in filesStore.files"
+				v-for="file in displayedFiles"
 				:key="file.id"
 				:id="file.id"
 				:name="file.name"

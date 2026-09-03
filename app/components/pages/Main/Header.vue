@@ -1,6 +1,8 @@
 <script setup lang="ts">
 	const filesStore = useFilesStore();
 
+	const isLoading = ref(false);
+
 	const uploadHandler = async (e: Event) =>
 	{
 		const input = e.target as HTMLInputElement;
@@ -11,13 +13,19 @@
 
 		if (!file) return;
 
+		isLoading.value = true;
+
 		const response = await filesStore.uploadFile(file);
 
+		isLoading.value = false;
+
 		if (response?.success)
-			navigateTo(`/processing/${response.data.fileId}`);
+			navigateTo(`/processing/${response.data.fileId}`);;
 	};
 
 	const searchInputRef = ref<HTMLInputElement | null>(null);
+
+	const model = defineModel();
 
 	onKeyStroke(['Ctrl', '/'], () => searchInputRef.value?.focus());
 </script>
@@ -30,6 +38,7 @@
 				class="input"
 				type="text"
 				ref="searchInputRef"
+				v-model="model"
 				placeholder="Поиск файлов"
 			>
 		</div>
@@ -49,6 +58,8 @@
 			>
 		</label>
 	</div>
+
+	<UiLoader v-if="isLoading" />
 </template>
 
 <style scoped lang='scss'>
