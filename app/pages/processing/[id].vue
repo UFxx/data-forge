@@ -27,12 +27,13 @@
 			</table>
 		</div>
 
-		<div
+		<UiButton
+			color="white"
 			class="icon-wr"
 			@click="toggleMenu"
 		>
 			<IconsBurger />
-		</div>
+		</UiButton>
 
 		<Teleport to="body">
 			<Transition name="slide-right">
@@ -86,20 +87,8 @@
 
 	.icon-wr
 	{
-		width: 44px;
-		height: 44px;
-		cursor: pointer;
-		border-radius: 8px;
-
 		top: 0;
 		right: -80px;
-		display: flex;
 		position: absolute;
-		align-items: center;
-		justify-content: center;
-
-		@include tr(0.3, box-shadow);
-
-		&:hover { box-shadow: inset 0 0 1px 1px $lighter-gray; }
 	}
 </style>

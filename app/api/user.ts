@@ -1,6 +1,6 @@
 import type { BaseResponse } from "~/types/baseResponse";
 import type { UserResponse } from "~/types/user";
-import type { RegistrationForm } from "~/types/rgistrationForm";
+import type { RegistrationForm } from "~/types/registrationForm";
 import type { LoginForm, LoginFormResponse } from "~/types/loginForm";
 
 export default {

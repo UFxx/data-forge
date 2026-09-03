@@ -18,8 +18,8 @@
 
 		if (response?.success)
 		{
-			await foldersStore.fetchFolders();
-			await filesStore.fetchFiles();
+			await foldersStore.fetchFolders(false);
+			await filesStore.fetchFiles(false);
 			popupsStore.closeAnyPopup();
 		}
 	};
@@ -90,6 +90,7 @@
 		border-radius: 8px;
 		padding-right: 8px;
 
+		flex: 1;
 		display: flex;
 		column-gap: 12px;
 		align-items: center;
@@ -119,5 +120,16 @@
 		flex-direction: column;
 	}
 
-	.name { font-weight: 500; }
+	.name
+	{
+		overflow: hidden;
+		max-width: 300px;
+		line-clamp: 1;
+		white-space: nowrap;
+		font-weight: 500;
+		text-overflow: ellipsis;
+		-webkit-line-clamp: 1;
+
+		display: block;
+	}
 </style>

@@ -13,7 +13,7 @@
 		if (response && response.success)
 		{
 			popupsStore.closeAnyPopup();
-			await filesStore.fetchFiles();
+			await filesStore.fetchFiles(false);
 		}
 	};
 </script>

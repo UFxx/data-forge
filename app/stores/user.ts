@@ -1,5 +1,5 @@
 import type { LoginForm } from "~/types/loginForm";
-import type { RegistrationForm } from "~/types/rgistrationForm";
+import type { RegistrationForm } from "~/types/registrationForm";
 
 const { user: userApi } = useApi();
 

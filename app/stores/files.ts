@@ -15,18 +15,17 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 				const response = await filesApi.upload(payload);
 
-				if (response.success)
+				if (response?.success)
 				{
 					const fileText = await data.text();
 					setFileForProcessing(
 						{
-							id   : response.data.fileId,
-							name : response.data.originalName,
-							path : response.data.filePath,
+							id   : response.data?.fileId,
+							name : response.data?.originalName,
+							path : response.data?.filePath,
 							text : fileText
 						}
 					)
-					useToast(response.message);
 				}
 
 				return response;
@@ -38,13 +37,13 @@ export const useFilesStore = defineStore('filesStore', () =>
 			}
 		};
 
-		const fetchFiles = async () =>
+		const fetchFiles = async (needSsr: boolean) =>
 		{
 			try
 			{
-				const response = await filesApi.fetch();
+				const response = await filesApi.fetch(needSsr);
 
-				if (response.success)
+				if (response?.success)
 					setFiles(response.data);
 			}
 			catch (err: any) { console.error(err); }
@@ -56,11 +55,8 @@ export const useFilesStore = defineStore('filesStore', () =>
 			{
 				const response = await filesApi.delete(id)
 
-				if (response.success)
-				{
+				if (response?.success)
 					deleteFileLocaly(id);
-					useToast(response.message);
-				}
 			}
 			catch(err: any)
 			{
@@ -75,14 +71,12 @@ export const useFilesStore = defineStore('filesStore', () =>
 			{
 				const response = await filesApi.rename(id, newName);
 
-				if (response.success && files.value)
+				if (response?.success && files.value)
 				{
 					const file = files.value?.find((file: FileItem) => file.id === id);
 
 					if (file)
 						file.name = newName;
-
-					useToast(response.message);
 				}
 
 				return response;
@@ -98,12 +92,7 @@ export const useFilesStore = defineStore('filesStore', () =>
 		{
 			try
 			{
-				const response = await filesApi.move(fileId, folderId);
-
-				if (response.success)
-					useToast(response.message);
-
-				return response;
+				return await filesApi.move(fileId, folderId);
 			}
 			catch (err: any)
 			{
@@ -118,7 +107,7 @@ export const useFilesStore = defineStore('filesStore', () =>
 			{
 				const response = await filesApi.fetchFileById(id);
 
-				if (response.success)
+				if (response?.success)
 					setFileForProcessing(response.data);
 			}
 			catch(err: any)

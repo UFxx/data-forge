@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import type { RegistrationForm } from '~/types/rgistrationForm';
+	import type { RegistrationForm } from '~/types/registrationForm';
 
 	const userStore = useUserStore();
 

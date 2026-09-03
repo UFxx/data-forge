@@ -1,3 +1,5 @@
+import type { BaseResponse } from "~/types/baseResponse";
+
 export const useRequest = async <T>(
 	url      : string,
 	options? : Record<string, any>,
@@ -12,10 +14,39 @@ export const useRequest = async <T>(
 		...options?.headers
 	};
 
-	return await $fetch<T>(baseApiUrl + url,
+	const { isSsr, ...fetchOptions } = options || {};
+
+	if (options && !options.isSsr)
+	{
+		const response =  await $fetch<T & BaseResponse & { data? : T }>(
+			baseApiUrl + url,
+			{
+				...fetchOptions,
+				headers
+			}
+		);
+
+		if (response.success)
+			useToast(response.message, 'success');
+		else
 		{
-			...options,
-			headers
+			useToast(response.message, 'error');
+			console.error(response.message)
 		}
-	);
+
+		return response;
+	}
+	else
+	{
+		const { data } =  await useFetch<T>(baseApiUrl + url,
+			{
+				...fetchOptions,
+				headers,
+				...{ server: true }
+			}
+		);
+
+		return data.value;
+	}
+
 };

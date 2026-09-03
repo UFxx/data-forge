@@ -39,12 +39,12 @@
 	<div class="menu">
 		<div class="title">
 			 <UiTitle :medium="true">Предобработка</UiTitle>
-			<div
+			<UiButton
 				class="icon-wr"
 				@click="emit('toggleMenu')"
 			>
 				<IconsPlus class="close-icon" />
-			</div>
+			</UiButton>
 		</div>
 		<PagesProcessingMenuContent
 			class="content"
@@ -93,13 +93,11 @@
 
 	.icon-wr
 	{
-		width: 44px;
-		height: 44px;
-		cursor: pointer;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
+		&:hover .close-icon
+		{
+			color: $red;
+			opacity: 1;
+		}
 	}
 
 	.close-icon
@@ -110,12 +108,6 @@
 		transform: rotate(45deg);
 
 		@include tr(0.3, opacity, color);
-
-		&:hover
-		{
-			color: $red;
-			opacity: 1;
-		}
 	}
 
 	.content { flex: 1; }

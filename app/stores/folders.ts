@@ -1,4 +1,4 @@
-import type { Folder } from "~/types/folders";
+import type { Folder, FoldersResponse } from "~/types/folders";
 
 export const useFoldersStore = defineStore('foldersStore', () =>
 	{
@@ -12,8 +12,7 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 			{
 				const response = await foldersApi.create(name);
 
-				if (response.success)
-				{
+				if (response?.data)
 					folders.value.push(
 						{
 							id         : response.data.folderId,
@@ -22,10 +21,7 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 						}
 					);
 
-					useToast(response.message);
-				}
-
-				return response.success;
+				return response;
 			}
 			catch(err: any)
 			{
@@ -34,13 +30,13 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 			}
 		};
 
-		const fetchFolders = async () =>
+		const fetchFolders = async (isSsr: boolean) =>
 		{
 			try
 			{
-				const response = await foldersApi.fetch()
+				const response = await foldersApi.fetch(isSsr)
 
-				if (response.success)
+				if (response?.success)
 					folders.value = response.data;
 			}
 			catch (err) { console.error(err); }
@@ -52,23 +48,12 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 			unlinkFiles : boolean = false
 		) =>
 		{
-			try
-			{
-				const response = await foldersApi.delete(id, withFiles, unlinkFiles);
+			const response = await foldersApi.delete(id, withFiles, unlinkFiles);
 
-				if (response.success)
-				{
-					folders.value = folders.value.filter((folder: Folder) => folder.id !== id)
-					useToast(response.message);
-				}
+			if (response?.success)
+				folders.value = folders.value.filter((folder: Folder) => folder.id !== id)
 
-				return response;
-			}
-			catch (err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+			return response;
 		};
 
 		const renameFolder = async (id: string, newName: string) =>
@@ -77,17 +62,15 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 			{
 				const response = await foldersApi.rename(id, newName);
 
-				if (response.success)
+				if (response?.success)
 				{
 					const folder = folders.value?.find((folder: Folder) => folder.id === id);
 
 					if (folder)
 						folder.name = newName;
-
-					useToast(response.message);
 				}
 
-				return response.success;
+				return response?.success;
 			}
 			catch(err: any)
 			{

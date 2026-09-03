@@ -27,9 +27,9 @@
 	<div class="default-layout">
 		<main>
 			<div class="container">
-				<Transition name="room-top">
-					<NuxtPage />
-				</Transition>
+				<NuxtPage
+					:transition="{ name: 'room-top' }"
+				/>
 			</div>
 		</main>
 

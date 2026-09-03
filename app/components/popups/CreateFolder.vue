@@ -25,7 +25,7 @@
 
 		const response = await foldersStore.createFolder(folderName.value.trim());
 
-		if (response)
+		if (response?.success)
 			popupsStore.closeAnyPopup();
 
 		isLoading.value = false;

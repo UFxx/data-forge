@@ -10,7 +10,7 @@ export default {
 		}
 	),
 
-	fetch: async () => await useRequest<FoldersResponse>('/folders'),
+	fetch: async (isSsr: boolean) => await useRequest<FoldersResponse>('/folders', { isSsr }),
 	delete: async (
 		id          : string,
 		withFiles   : boolean,

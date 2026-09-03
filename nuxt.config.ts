@@ -12,6 +12,8 @@ export default defineNuxtConfig({
 		'@vueuse/nuxt'
 	],
 
+	ssr: true,
+
 	css: ['@/assets/styles/index.scss'],
 
 	runtimeConfig:
