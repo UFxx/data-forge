@@ -13,8 +13,8 @@
 
 		const response = await filesStore.uploadFile(file);
 
-		if (response)
-			navigateTo('/processing');
+		if (response?.success)
+			navigateTo(`/processing/${response.data.fileId}`);
 	};
 
 	const searchInputRef = ref<HTMLInputElement | null>(null);

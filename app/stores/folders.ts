@@ -46,19 +46,23 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 			catch (err) { console.error(err); }
 		};
 
-		const deleteFolder = async (id: string) =>
+		const deleteFolder = async (
+			id          : string,
+			withFiles   : boolean = false,
+			unlinkFiles : boolean = false
+		) =>
 		{
 			try
 			{
-				const response = await foldersApi.delete(id);
+				const response = await foldersApi.delete(id, withFiles, unlinkFiles);
 
 				if (response.success)
 				{
 					folders.value = folders.value.filter((folder: Folder) => folder.id !== id)
-
 					useToast(response.message);
 				}
 
+				return response;
 			}
 			catch (err: any)
 			{

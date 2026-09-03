@@ -34,7 +34,10 @@ import type { ChooseFolderData } from '~/types/popups';
 <template>
 	<div class="choose-folder base-popup">
 		<UiTitle :medium="true">Выберите папку</UiTitle>
-		<div class="folders">
+		<div
+			v-if="foldersStore.folders.length"
+			class="folders"
+		>
 			<PopupsChooseFolder
 				v-for="folder in foldersStore.folders"
 				:key="folder.id"
@@ -46,6 +49,8 @@ import type { ChooseFolderData } from '~/types/popups';
 				@choose="chooseFolder"
 			/>
 		</div>
+
+		<div v-else>Тут пока что ничего нет</div>
 
 		<div class="buttons">
 			<UiButton

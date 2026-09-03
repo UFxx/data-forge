@@ -5,7 +5,15 @@
 	const userStore   = useUserStore();
 	const popupsStore = usePopupsStore();
 
-	nuxtApp.hook("page:finish", () => { getScrollbarWidth(); });
+	const isLoading = ref(false);
+
+	nuxtApp.hook("page:start", () => { isLoading.value = true; });
+	nuxtApp.hook("page:finish", () =>
+		{
+			getScrollbarWidth()
+			isLoading.value = false;
+		}
+	);
 
 	const handleResize = useDebounceFn(() => getScrollbarWidth(), 200);
 
@@ -26,6 +34,7 @@
 		</main>
 
 		<Toaster />
+		<UiLoader v-if="isLoading" />
 	</div>
 
 	<ClientOnly>

@@ -1,10 +1,10 @@
 const { files: filesApi } = useApi();
-import type { FileItem } from "~/types/files";
+import type { FileItem, FileForProcessing } from "~/types/files";
 
 export const useFilesStore = defineStore('filesStore', () =>
 	{
 		const files             = ref<FileItem[] | null>(null);
-		const fileForProcessing = ref<string | null>(null);
+		const fileForProcessing = ref<FileForProcessing | null>(null);
 
 		const uploadFile = async (data: File) =>
 		{
@@ -17,11 +17,19 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 				if (response.success)
 				{
-					fileForProcessing.value = await data.text();
+					const fileText = await data.text();
+					setFileForProcessing(
+						{
+							id   : response.data.fileId,
+							name : response.data.originalName,
+							path : response.data.filePath,
+							text : fileText
+						}
+					)
 					useToast(response.message);
 				}
 
-				return response.success;
+				return response;
 			}
 			catch (err: any)
 			{
@@ -104,6 +112,22 @@ export const useFilesStore = defineStore('filesStore', () =>
 			}
 		};
 
+		const fetchFile = async (id: string) =>
+		{
+			try
+			{
+				const response = await filesApi.fetchFileById(id);
+
+				if (response.success)
+					setFileForProcessing(response.data);
+			}
+			catch(err: any)
+			{
+				useToast(err.data.message, 'error');
+				console.error(err);
+			}
+		};
+
 		const setFiles = (data: FileItem[]) => files.value = data;
 
 		const deleteFileLocaly = (id: string) =>
@@ -114,6 +138,14 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 		const addFile = (file: FileItem) => files.value?.push(file);
 
+		const setFileForProcessing = (file: FileForProcessing) =>
+		{
+			if (fileForProcessing.value?.id === file.id)
+				return;
+
+			fileForProcessing.value = file;
+		};
+
 		return {
 			files,
 			fileForProcessing,
@@ -121,11 +153,13 @@ export const useFilesStore = defineStore('filesStore', () =>
 			addFile,
 			setFiles,
 			deleteFileLocaly,
+			setFileForProcessing,
 
 			uploadFile,
 			fetchFiles,
 			deleteFile,
 			renameFile,
+			fetchFile,
 			moveFile
 		}
 	}

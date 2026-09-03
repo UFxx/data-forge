@@ -1,10 +1,12 @@
 import { db } from '#db';
-import { folders } from '#db/schema';
+import { files, folders } from '#db/schema';
 import { eq } from 'drizzle-orm';
 
 export default defineEventHandler(async (e) =>
 	{
-		const id = getRouterParam(e, 'id');
+		const id          = getRouterParam(e, 'id');
+		const withFiles   = getQuery(e).withFiles;
+		const unlinkFiles = getQuery(e).unlinkFiles;
 
 		if (!id)
 			throw createError(
@@ -14,7 +16,13 @@ export default defineEventHandler(async (e) =>
 				}
 			);
 
-		await db.delete(folders).where(eq(folders.id, id))
+		if (withFiles === 'true')
+			await db.delete(files).where(eq(files.folderId, id));
+
+		if (unlinkFiles === 'true')
+			await db.update(files).set({ folderId: null }).where(eq(files.folderId, id));
+
+		await db.delete(folders).where(eq(folders.id, id));
 
 		return {
 			success: true,

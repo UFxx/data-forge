@@ -1,0 +1,87 @@
+{
+	"delete_empty_values": {
+		"frontend": { "label": "Удалить строки с пустыми значениями" },
+		"python": {
+			"function": "delete_empty_values",
+			"module": "operations"
+		}
+	},
+	"remove_duplicates": {
+		"frontend": { "label": "Удалить дубликаты" },
+		"python": {
+			"function": "remove_duplicates",
+			"module": "operations"
+		}
+	},
+	"trim_spaces": {
+		"frontend": { "label": "Обрезать пробелы" },
+		"python": {
+			"function": "trim_spaces",
+			"module": "operations"
+		}
+	},
+	"fill_missing_values": {
+		"frontend": {
+			"label": "Заполнить пропуски",
+			"parameters": [
+				{
+					"name": "method",
+					"type": "select",
+					"label": "Метод заполнения",
+					"options": [
+						{ "value": "mean", "label": "Среднее" },
+						{ "value": "median", "label": "Медиана" },
+						{ "value": "forward_fill", "label": "Forward fill" }
+					],
+					"default": "mean"
+				}
+			]
+		},
+		"python": {
+			"function": "fill_missing_values",
+			"module": "operations"
+		}
+	},
+	"normalize_dates": {
+		"frontend": { "label": "Преобразовать даты к единому формату" },
+		"python": {
+			"function": "normalize_dates",
+			"module": "operations"
+		}
+	},
+	"handle_outliers": {
+		"frontend": { "label": "Обработать выбросы" },
+		"python": {
+			"function": "handle_outliers",
+			"module": "operations"
+		}
+	},
+	"normalize_data": {
+		"frontend": { "label": "Нормализовать или стандартизировать числовые данные" },
+		"python": {
+			"function": "normalize_data",
+			"module": "operations"
+		}
+	},
+	"remove_low_variance": {
+		"frontend": { "label": "Удалить столбцы с низкой дисперсией" },
+		"python": {
+			"function": "remove_low_variance",
+			"module": "operations"
+		}
+	},
+	"replace_inf": {
+		"frontend": { "label": "Заменить inf на nan и обработать" },
+		"python": {
+			"function": "replace_inf",
+			"module": "operations"
+		}
+	},
+	"clean_text": {
+		"frontend": { "label": "Очистить текстовые поля" },
+		"python": {
+			"function": "clean_text",
+			"module": "operations"
+		}
+	}
+}

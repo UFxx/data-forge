@@ -48,6 +48,8 @@ export default defineNuxtConfig({
 		},
 	},
 
+	alias: { '#config': fileURLToPath(new URL('./config', import.meta.url)) },
+
 	nitro:
 	{
 		alias: { '#db': fileURLToPath(new URL('./server/db', import.meta.url)) }

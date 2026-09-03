@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { FolderDetail } from '~/types/popups';
-
 	const popupsStore  = usePopupsStore();
 	const foldersStore = useFoldersStore();
 
@@ -14,12 +12,16 @@ import type { FolderDetail } from '~/types/popups';
 	{
 		popupsStore.setPopupData(
 			{
-				id   : props.id,
-				name : props.name,
-				deleteFunction: foldersStore.deleteFolder
+				id             : props.id,
+				name           : props.name,
+				deleteFunction : foldersStore.deleteFolder
 			}
 		);
-		popupsStore.togglePopup('deleteConfirmation', true)
+
+		if (props.filesCount > 0)
+			popupsStore.togglePopup('deleteFolderConfirmation', true)
+		else
+			popupsStore.togglePopup('deleteConfirmation', true)
 	};
 
 	const openRenamePopup = () =>

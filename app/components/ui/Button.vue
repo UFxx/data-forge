@@ -26,6 +26,7 @@
 	{
 		padding: 12px;
 		font-size: 14px;
+		text-wrap: nowrap;
 		font-weight: 500;
 		border-radius: 8px;
 

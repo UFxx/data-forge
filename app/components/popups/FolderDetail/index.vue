@@ -1,5 +1,5 @@
 <script setup lang="ts">
-	import { type FolderDetail } from '~/types/popups';
+	import { type FolderDetailData } from '~/types/popups';
 	import { type FileItem } from '~/types/files';
 
 	const popupsStore  = usePopupsStore();
@@ -8,7 +8,7 @@
 	const files     = ref<FileItem[] | null>(null);
 	const isLoading = ref(false);
 
-	const popupData = popupsStore.popupData as FolderDetail;
+	const popupData = popupsStore.popupData as FolderDetailData;
 
 	const fetchFiles = async () =>
 	{
@@ -47,6 +47,7 @@
 					:id="file.id"
 					:name="file.name"
 					:size="file.size"
+					:isProcessed="file.isProcessed"
 				/>
 			</template>
 			<div v-else>Тут пока ничего нет</div>
@@ -93,8 +94,6 @@
 	{
 		border: 1px solid $lighter-gray;
 		padding: 8px;
-		overflow-y: auto;
-		max-height: 400px;
 		border-radius: 8px;
 		scrollbar-width: thin;
 

@@ -1,32 +1,98 @@
 <script setup lang="ts">
+	const popupsStore  = usePopupsStore();
+	const filesStore   = useFilesStore();
+	const foldersStore = useFoldersStore();
+
 	const props = defineProps<{
-		id   : string,
-		name : string,
-		size : number
+		id          : string,
+		name        : string,
+		size        : number,
+		isProcessed : boolean
 	}>();
+
+	const fileLink = computed(() => `${props.isProcessed ? '/file' : '/processing'}/${props.id}`)
+
+	const unlinkFileFromFolder = async () =>
+	{
+		const response = await filesStore.moveFile(props.id, 'empty');
+
+		if (response?.success)
+		{
+			await foldersStore.fetchFolders();
+			await filesStore.fetchFiles();
+			popupsStore.closeAnyPopup();
+		}
+	};
+
+	const openRenamePopup = () =>
+	{
+		popupsStore.setPopupData(
+			{
+				id             : props.id,
+				name           : props.name,
+				isFile         : true,
+				renameFunction : filesStore.renameFile
+			}
+		);
+		popupsStore.togglePopup('rename', true);
+	};
+
+	const openDeleteConfirmationPopup = () =>
+	{
+		popupsStore.setPopupData(
+			{
+				id             : props.id,
+				name           : props.name,
+				deleteFunction : foldersStore.deleteFolder
+			}
+		);
+		popupsStore.togglePopup('deleteConfirmation', true)
+	};
 </script>
 
 <template>
-	<NuxtLink :to="`/file/${id}`" class="file">
-		<div class="icon-wr">
-			<IconsCSV />
-		</div>
-		<div class="meta">
-			<p class="name">{{ name }}</p>
-			<p class="size">{{ formatFileSize(size) }}</p>
-		</div>
-	</NuxtLink>
+	<div
+		class="file"
+		@click="popupsStore.closeAnyPopup"
+	>
+		<NuxtLink
+			:to="fileLink"
+			class="content"
+		>
+			<div class="icon-wr">
+				<IconsCSV />
+			</div>
+			<div class="meta">
+				<p class="name">{{ name }}</p>
+				<p class="size">{{ formatFileSize(size) }}</p>
+			</div>
+		</NuxtLink>
+		<ItemOptions
+			:unlinkFileFromFolder="true"
+			@rename="openRenamePopup"
+			@delete="openDeleteConfirmationPopup"
+			@unlinkFileFromFolder="unlinkFileFromFolder"
+		/>
+	</div>
 </template>
 
 <style scoped lang='scss'>
 	.file
 	{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.content
+	{
 		cursor: pointer;
+		border-radius: 8px;
+		padding-right: 8px;
 
 		display: flex;
 		column-gap: 12px;
 		align-items: center;
-		border-radius: 8px;
 
 		@include tr(0.3, background-color);
 

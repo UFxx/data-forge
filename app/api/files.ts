@@ -1,8 +1,8 @@
 import type { BaseResponse } from "~/types/baseResponse"
-import type { FilesResponse } from "~/types/files"
+import type { FilesResponse, UploadFileResponse, GetFile } from "~/types/files"
 
 export default {
-	upload: async (payload: FormData) => await useRequest<BaseResponse>('/files',
+	upload: async (payload: FormData) => await useRequest<UploadFileResponse>('/files',
 		{
 			method: 'POST',
 			body: payload
@@ -23,5 +23,7 @@ export default {
 			method: 'PATCH',
 			body: { folderId }
 		}
-	)
+	),
+
+	fetchFileById: async (id: string) => await useRequest<GetFile>(`/files/${id}`)
 }

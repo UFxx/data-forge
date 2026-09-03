@@ -11,7 +11,11 @@ export default {
 	),
 
 	fetch: async () => await useRequest<FoldersResponse>('/folders'),
-	delete: async (id: string) => await useRequest<BaseResponse>(`/folders/${id}`, { method: 'DELETE' }),
+	delete: async (
+		id          : string,
+		withFiles   : boolean,
+		unlinkFiles : boolean
+	) => await useRequest<BaseResponse>(`/folders/${id}?unlinkFiles=${unlinkFiles}&withFiles=${withFiles}`, { method: 'DELETE' }),
 
 	rename: async (id: string, newName: string) => await useRequest<BaseResponse>(`/folders/${id}`,
 		{

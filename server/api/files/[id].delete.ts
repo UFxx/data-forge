@@ -1,5 +1,6 @@
 import { db } from "#db";
 import { files } from "#db/schema";
+import fs from 'node:fs';
 import { eq } from "drizzle-orm";
 
 export default defineEventHandler(async (e) =>
@@ -14,7 +15,11 @@ export default defineEventHandler(async (e) =>
 				}
 			);
 
-		await db.delete(files).where(eq(files.id, id))
+
+		const file = db.delete(files).where(eq(files.id, id)).returning({ path: files.path }).get();
+
+		if (file?.path)
+			fs.unlinkSync(file.path)
 
 		return {
 			success : true,

@@ -8,8 +8,8 @@ export const usePopupsStore = defineStore('popups', () => {
 
 	const activePopupComponent = computed(() => {
 		return activePopupName.value
-		? popups[activePopupName.value]
-		: null;
+			? popups[activePopupName.value]
+			: null;
 	});
 
 	const togglePopup = <T extends PopupName>(popupName: T, value: boolean) => {

@@ -1,17 +1,19 @@
 <script setup lang="ts">
 	withDefaults(defineProps<{
-		rename?       : boolean,
-		moveToFolder? : boolean,
-		delete?       : boolean
+		rename?               : boolean,
+		delete?               : boolean,
+		moveToFolder?         : boolean,
+		unlinkFileFromFolder? : boolean
 	}>(),
 		{
-			rename       : true,
-			moveToFolder : false,
-			delete       : true
+			rename               : true,
+			moveToFolder         : false,
+			delete               : true,
+			unlinkFileFromFolder : false
 		}
 	);
 
-	const emit = defineEmits(['rename', 'delete', 'moveToFolder']);
+	const emit = defineEmits(['rename', 'delete', 'moveToFolder', 'unlinkFileFromFolder']);
 
 	const isMenuOpened = ref<boolean>(false);
 	const optionsRef      = ref<HTMLElement | null>(null)
@@ -20,11 +22,11 @@
 </script>
 
 <template>
-	<div class="wrapper">
-		<button
-			class="menu-button"
-			@click.stop="isMenuOpened=true"
-		>
+	<div
+		class="wrapper"
+		@click.stop="isMenuOpened=true"
+	>
+		<button class="menu-button">
 			<IconsMenu />
 		</button>
 		<div
@@ -35,21 +37,28 @@
 			<button
 				v-if="rename"
 				class="option"
-				@click="emit('rename', true)"
+				@click.stop="emit('rename', true)"
 			>
 				Переименовать
 			</button>
 			<button
 				v-if="moveToFolder"
 				class="option"
-				@click="emit('moveToFolder')"
+				@click.stop="emit('moveToFolder')"
 			>
 				Переместить в папку
 			</button>
 			<button
+				v-if="unlinkFileFromFolder"
+				class="option"
+				@click.stop="emit('unlinkFileFromFolder')"
+			>
+				Удалить из папки
+			</button>
+			<button
 				v-if="delete"
 				class="option option--delete"
-				@click="emit('delete')"
+				@click.stop="emit('delete')"
 			>
 				Удалить
 			</button>

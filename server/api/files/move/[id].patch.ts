@@ -13,9 +13,14 @@ export default defineEventHandler(async (e) => {
 	if (body.folderId === undefined)
 		throw createError({ statusCode: 400, message: 'folderId обязателен' });
 
-	await db.update(files)
-		.set({ folderId: body.folderId })
-		.where(eq(files.id, fileId));
+	if (body.folderId === 'empty')
+		await db.update(files)
+			.set({ folderId: null })
+			.where(eq(files.id, fileId));
+	else
+		await db.update(files)
+			.set({ folderId: body.folderId })
+			.where(eq(files.id, fileId));
 
 	return {
 		success: true,

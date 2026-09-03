@@ -3,27 +3,24 @@ import jwt from 'jsonwebtoken';
 export default defineEventHandler((e) =>
 	{
 		const url = e.path;
-
 		const publicRoutes = ['/', '/login', '/registration', '/api/login', '/api/registration'];
 
-		if (publicRoutes.includes(url))
-			return;
+		if (publicRoutes.includes(url)) return;
+
+		let token: string | undefined;
 
 		const authHeader = getHeader(e, 'Authorization');
 
-		if (!authHeader || !authHeader?.startsWith('Bearer '))
-			throw createError(
-				{
-					statusCode: 401,
-					message: 'Неавторизован'
-				}
-			);
-
-		const token      = authHeader?.split(' ')[1];
-		const JWT_SECRET = useRuntimeConfig().JWT_SECRET;
+		if (authHeader && authHeader.startsWith('Bearer '))
+			token = authHeader.split(' ')[1];
 
 		if (!token)
-			throw createError({ statusCode: 401, message: 'Неверный формат токена' });
+			token = getCookie(e, 'forgeJWT');
+
+		if (!token)
+			throw createError({ statusCode: 401, message: 'Токен не найден' });
+
+		const JWT_SECRET = useRuntimeConfig().JWT_SECRET?.trim();
 
 		try
 		{
@@ -32,12 +29,10 @@ export default defineEventHandler((e) =>
 		}
 		catch (err: any)
 		{
-			throw createError(
-				{
-					statusCode : 401,
-					message    : 'Неавторизован'
-				}
-			);
+			throw createError({
+				statusCode : 401,
+				message    : 'Неавторизован (Неверная подпись)'
+			});
 		}
 	}
 );

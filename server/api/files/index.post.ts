@@ -19,20 +19,29 @@ export default defineEventHandler(async (e) =>
 		const fileExtension  = fullFilename[fullFilename?.length - 1];
 		const randomFileId = randomUUID();
 
-		const uniqueFilename = `${randomFileId}.${fileExtension}`
-		const filePath = `uploads/${uniqueFilename}`;
+		const getUniqueFilename = (isCopy= false) =>
+		{
+			if (isCopy)
+				return `${randomFileId}-preprocessing.${fileExtension}`;
+			else
+				return `${randomFileId}.${fileExtension}`;
+		}
 
-		await mkdir('uploads', { recursive: true });
+		const filePath = `uploads/${randomFileId}/${getUniqueFilename()}`;
+		const copyFilePath = `uploads/${randomFileId}/${getUniqueFilename(true)}`;
+
+		await mkdir(`uploads/${randomFileId}`, { recursive: true });
 		await writeFile(filePath, filePart.data);
+		await writeFile(copyFilePath, filePart.data);
 
 		await db.insert(files).values(
 			{
 				id          : randomFileId,
 				name        : filePart.filename,
 				size        : filePart.data.length,
-				path        : filePath,
+				path        : copyFilePath,
 				userId      : e.context.userId,
-				uniqueName  : uniqueFilename,
+				uniqueName  : getUniqueFilename(),
 			}
 		)
 
@@ -41,8 +50,9 @@ export default defineEventHandler(async (e) =>
 			message: 'Файл загружен',
 			data:
 			{
-				filePath,
-				originalName: filePart.filename
+				fileId       : randomFileId,
+				filePath     : copyFilePath,
+				originalName : filePart.filename,
 			}
 		}
 	}

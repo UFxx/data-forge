@@ -17,7 +17,7 @@ export const files = sqliteTable('files',
 		userId      : text('user_id').notNull().references(() => users.id),
 		folderId    : text('folder_id').references(() => folders.id),
 		uniqueName  : text('unique_name').notNull().unique(),
-		isProcessed : integer('is_processed', { mode: 'boolean' }).default(true).notNull(),
+		isProcessed : integer('is_processed', { mode: 'boolean' }).default(false).notNull(),
 	}
 );
 

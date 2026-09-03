@@ -26,6 +26,8 @@
 	{
 		border: 1px solid $lighter-gray;
 		border-radius: 12px;
+
+		&:not(:has(.file)) .header { border-bottom: none; }
 	}
 
 	.header

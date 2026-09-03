@@ -46,13 +46,15 @@
 		);
 		popupsStore.togglePopup('chooseFolder', true);
 	};
+
+	const fileLink = computed(() => `${props.isProcessed ? '/file' : '/processing'}/${props.id}`)
 </script>
 
 <template>
 	<div class="file">
 		<NuxtLink
 			class="name"
-			:to="`/file/${id}`"
+			:to="fileLink"
 		>
 		<div class="icon-wr">
 			<IconsCSV />

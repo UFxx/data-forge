@@ -84,5 +84,7 @@
 
 		display: flex;
 		column-gap: 12px;
+
+		&:empty { display: none; }
 	}
 </style>
