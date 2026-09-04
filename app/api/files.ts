@@ -25,5 +25,5 @@ export default {
 		}
 	),
 
-	fetchFileById: async (id: string, isSsr: boolean) => await useRequest<GetFile>(`/files/${id}`, { isSsr })
+	fetchFileById: async (id: string) => await useRequest<GetFile>(`/files/${id}`)
 }

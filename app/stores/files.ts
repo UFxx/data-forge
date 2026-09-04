@@ -62,9 +62,9 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 		const moveFile = async (fileId: string, folderId: string) => await filesApi.move(fileId, folderId);
 
-		const fetchFile = async (id: string, isSsr: boolean) =>
+		const fetchFile = async (id: string) =>
 		{
-			const response = await filesApi.fetchFileById(id, isSsr);
+			const response = await filesApi.fetchFileById(id);
 
 			if (response?.success)
 				setFileForProcessing(response.data);
