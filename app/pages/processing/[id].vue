@@ -1,17 +1,21 @@
 <script setup lang="ts">
-	const filesStore  = useFilesStore();
-	const fileId      = useRoute().params.id as string;
+	const filesStore = useFilesStore();
+	const fileId     = useRoute().params.id as string;
 
 	if (!filesStore.fileForProcessing || filesStore.fileForProcessing.id !== fileId)
-		await filesStore.fetchFile(fileId, true);
+		await filesStore.fetchFile(fileId);
 
 	useSeoMeta({ title: filesStore.fileForProcessing?.name });
 
-	const { fileData, fileHeaders } = useFormatCsv(filesStore.fileForProcessing?.text);
+	const { fileData, fileHeaders } = useFormatCsv(filesStore);
 
-	const isMenuOpened = ref(true);
+	const isMenuOpened      = ref<boolean>(false);
+	const isProcessing      = ref<boolean>(false);
+	const processingMessage = ref<string>('');
 
-	const toggleMenu = () => isMenuOpened.value = !isMenuOpened.value;
+	const toggleMenu           = () => isMenuOpened.value = !isMenuOpened.value;
+	const toggleIsProcessing   = (value: boolean) => isProcessing.value = value;
+	const setProcessingMessage = (value: string) => processingMessage.value = value;
 </script>
 
 <template>
@@ -50,12 +54,17 @@
 		<Teleport to="body">
 			<Transition name="slide-right">
 				<PagesProcessingMenu
-				v-if="isMenuOpened"
-				:filePath="filesStore.fileForProcessing?.path || ''"
-				@toggleMenu="toggleMenu"
+					v-if="isMenuOpened"
+					:filePath="filesStore.fileForProcessing?.path || ''"
+					:fileId
+					@toggleMenu="toggleMenu"
+					@toggleIsProcessing="toggleIsProcessing"
+					@setProcessingMessage="setProcessingMessage"
 				/>
 			</Transition>
 		</Teleport>
+
+		<UiLoader v-if="isProcessing" :message="processingMessage" />
 	</div>
 </template>
 

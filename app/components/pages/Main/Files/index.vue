@@ -23,15 +23,23 @@
 			<p>Все файлы</p>
 		</div>
 		<TransitionGroup name="fade">
-			<PagesMainFilesItem
-				v-for="file in displayedFiles"
-				:key="file.id"
-				:id="file.id"
-				:name="file.name"
-				:size="file.size"
-				:folderId="file.folderId"
-				:isProcessed="file.isProcessed"
-			/>
+			<template v-if="displayedFiles?.length">
+				<PagesMainFilesItem
+					v-for="file in displayedFiles"
+					:key="file.id"
+					:id="file.id"
+					:name="file.name"
+					:size="file.size"
+					:folderId="file.folderId"
+					:isProcessed="file.isProcessed"
+				/>
+			</template>
+			<div
+				v-else
+				class="files-empty"
+			>
+				Тут ничего нет
+			</div>
 		</TransitionGroup>
 	</div>
 </template>
@@ -51,5 +59,12 @@
 		font-weight: 600;
 		padding-bottom: 12px;
 		border-bottom: 1px solid $lighter-gray
+	}
+
+	.files-empty
+	{
+		color: $light-gray;
+		font-weight: 500;
+		padding: 0 0 16px 8px;
 	}
 </style>

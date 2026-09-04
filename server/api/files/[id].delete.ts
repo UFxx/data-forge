@@ -26,11 +26,27 @@ export default defineEventHandler(async (e) =>
 			);
 
 		if (file?.path)
-			fs.unlinkSync(file.path)
+		{
+			const folderPath = file.path.split('/').slice(0, 2).join('/');
+
+			fs.rm(folderPath,
+				{ recursive: true },
+				(err) =>
+				{
+					if (err)
+						throw createError(
+							{
+								statusCode : 500,
+								message    : 'Не удалось удалить папку'
+							}
+						)
+				}
+			);
+		}
 
 		return {
 			success : true,
 			message : 'Файл удален'
-		}
+		};
 	}
 )

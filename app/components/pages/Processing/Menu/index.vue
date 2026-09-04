@@ -1,11 +1,14 @@
 <script setup lang="ts">
 	import operations from '#config/operations.json';
 
-	const { preprocessing: preprocessingApi } = useApi();
+	const filesStore = useFilesStore();
 
-	const props = defineProps<{ filePath: string }>();
+	const props = defineProps<{
+		filePath : string,
+		fileId   : string
+	}>();
 
-	const emit = defineEmits(['toggleMenu']);
+	const emit = defineEmits(['toggleMenu', 'toggleIsProcessing', 'setProcessingMessage']);
 
 	const choosedOperationCodes = ref<string[]>([]);
 
@@ -18,13 +21,55 @@
 			choosedOperationCodes.value.splice(index, 1);
 	};
 
-	const apply = async () => await preprocessingApi.preprocessing(props.filePath, choosedOperationCodes.value.join(' '));;
+	let timer: NodeJS.Timeout;
+
+	const apply = async () =>
+	{
+		emit('toggleIsProcessing', true);
+
+		const response = await filesStore.startPreprocessing(props.filePath, choosedOperationCodes.value.join(' '));
+
+		if (response.success)
+		{
+			emit('setProcessingMessage', response.message);
+			timer = setInterval(() => checkProcessingStatus(), 1500);
+		}
+		else
+			emit('toggleIsProcessing', false);
+	};
+
+	const checkProcessingStatus = async () =>
+	{
+		try
+		{
+			const response = await filesStore.checkProcessingStatus(props.filePath);
+
+			emit('setProcessingMessage', response.message);
+
+			if (response.success)
+			{
+				emit('toggleIsProcessing', false);
+				clearInterval(timer);
+
+				await filesStore.fetchFile(props.fileId);
+				return;
+			}
+		}
+		catch (err: any)
+		{
+			emit('toggleIsProcessing', false);
+			clearInterval(timer);
+		}
+	};
 </script>
 
 <template>
 	<div class="menu">
 		<div class="title">
-			 <UiTitle :medium="true">Предобработка</UiTitle>
+			<div class="text">
+				<UiTitle :medium="true">Предобработка</UiTitle>
+				<p class="label">Для оптимизации показаны только 500 строк</p>
+			</div>
 			<UiButton
 				class="icon-wr"
 				@click="emit('toggleMenu')"
@@ -57,6 +102,7 @@
 	{
 		width: 400px;
 		height: 100vh;
+		z-index: 1;
 		border-left: 2px solid $lighter-gray;
 		background-color: $white;
 
@@ -75,6 +121,22 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+	}
+
+	.text
+	{
+		color: $black;
+
+		row-gap: 4px;
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+	}
+
+	.label
+	{
+		font-size: 12px;
+		color: $light-gray;
 	}
 
 	.icon-wr

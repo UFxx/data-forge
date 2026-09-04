@@ -1,11 +1,16 @@
-const { files: filesApi } = useApi();
 import type { FileItem, FileForProcessing } from "~/types/files";
+
+const {
+	files: filesApi,
+	preprocessing: preprocessingApi
+} = useApi();
 
 export const useFilesStore = defineStore('filesStore', () =>
 	{
 		const files             = ref<FileItem[] | null>(null);
 		const fileForProcessing = ref<FileForProcessing | null>(null);
 
+		// API
 		const uploadFile = async (data: File) =>
 		{
 			const payload = new FormData();
@@ -70,6 +75,20 @@ export const useFilesStore = defineStore('filesStore', () =>
 				setFileForProcessing(response.data);
 		};
 
+
+		const startPreprocessing = async (path: string, args: string) =>
+		{
+			const response = await preprocessingApi.preprocessing(path, args);
+			return response;
+		}
+
+		const checkProcessingStatus = async (path: string) =>
+		{
+			const response = await preprocessingApi.check(path);
+			return response;
+		};
+
+		// Actions
 		const setFiles = (data: FileItem[]) => files.value = data;
 
 		const deleteFileLocaly = (id: string) =>
@@ -80,29 +99,25 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 		const addFile = (file: FileItem) => files.value?.push(file);
 
-		const setFileForProcessing = (file: FileForProcessing) =>
-		{
-			if (fileForProcessing.value?.id === file.id)
-				return;
-
-			fileForProcessing.value = file;
-		};
+		const setFileForProcessing = (file: FileForProcessing) => fileForProcessing.value = file;
 
 		return {
 			files,
 			fileForProcessing,
 
-			addFile,
-			setFiles,
-			deleteFileLocaly,
-			setFileForProcessing,
-
+			moveFile,
+			fetchFile,
+			renameFile,
 			uploadFile,
 			fetchFiles,
 			deleteFile,
-			renameFile,
-			fetchFile,
-			moveFile
+			startPreprocessing,
+			checkProcessingStatus,
+
+			addFile,
+			setFiles,
+			deleteFileLocaly,
+			setFileForProcessing
 		}
 	}
 );

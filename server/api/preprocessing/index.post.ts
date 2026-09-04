@@ -1,4 +1,5 @@
 import { exec } from 'child_process';
+import { getStatus, setStatus } from '~~/server/utils/processingStatus';
 
 export default defineEventHandler(async (e) =>
 	{
@@ -20,11 +21,42 @@ export default defineEventHandler(async (e) =>
 				}
 			);
 
-		exec(`python scripts/main.py ${body.path} ${body.args}`, (_, stdout) => console.log(stdout));
+		const fileKey = body.path;
+
+		const currentStatus = getStatus(fileKey);
+		if (currentStatus.status === 'processing')
+			throw createError(
+				{
+					statusCode : 400,
+					message    : 'Файл уже обрабатывается'
+				}
+			)
+
+		setStatus(fileKey, { status: 'processing' });
+
+		exec(`python scripts/main.py ${body.path} ${body.args}`, (error, stdout, stderr) =>
+			{
+				if (error)
+				{
+					console.error(`[Python Error]: ${stderr}`);
+					setStatus(fileKey,
+						{
+							status: 'error',
+							error: stderr || error?.message
+						}
+					);
+				}
+				else
+				{
+					console.log(`[Python]: ${stdout}`);
+					setStatus(fileKey, { status  : 'done'});
+				}
+			}
+		);
 
 		return {
 			success : true,
-			message : 'Предобработка начата',
+			message : 'Обработка начата',
 		}
 	}
 );

@@ -16,7 +16,7 @@ export const useRequest = async <T>(
 			...options,
 			onResponse({ response })
 			{
-				if (response._data.message)
+				if (response._data?.message &&  response._data?.success)
 					useToast(response._data.message, 'success');
 			},
 			onResponseError({ response })

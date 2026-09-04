@@ -10,5 +10,7 @@ export default {
 				args
 			}
 		}
-	)
+	),
+
+	check: async (path: string) => await useRequest<BaseResponse>(`/preprocessing?path=${path}`)
 }

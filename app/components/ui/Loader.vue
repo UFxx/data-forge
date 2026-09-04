@@ -1,8 +1,16 @@
-<script setup></script>
+<script setup lang="ts">
+	defineProps<{ message?: string }>();
+</script>
 
 <template>
 	<div class="loader-wr">
 		<div class="loader" />
+		<p
+			v-if="message"
+			class="message"
+		>
+			{{ message }}
+		</p>
 	</div>
 </template>
 
@@ -55,5 +63,12 @@
 	@keyframes rotate
 	{
 		100% { transform: rotate(1turn); }
+	}
+
+	.message
+	{
+		transform: translateY(100px);
+
+		position: absolute;
 	}
 </style>
