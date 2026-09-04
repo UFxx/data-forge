@@ -32,16 +32,15 @@
 				/>
 			</div>
 		</main>
-
-		<Toaster />
-		<UiLoader v-if="isLoading" />
 	</div>
 
 	<ClientOnly>
 		<Teleport to="main">
-			<Transition name="fade">
-				<PopupWrapper />
-			</Transition>
+			<TransitionGroup name="fade">
+				<Toaster key="toaster" />
+				<PopupWrapper key="popup-wrapper" />
+				<UiLoader v-if="isLoading" key="loader" />
+			</TransitionGroup>
 		</Teleport>
 	</ClientOnly>
 </template>

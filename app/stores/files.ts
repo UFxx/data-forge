@@ -8,113 +8,66 @@ export const useFilesStore = defineStore('filesStore', () =>
 
 		const uploadFile = async (data: File) =>
 		{
-			try
+			const payload = new FormData();
+			payload.append('file', data);
+
+			const response = await filesApi.upload(payload);
+
+			if (response?.success)
 			{
-				const payload = new FormData();
-				payload.append('file', data);
-
-				const response = await filesApi.upload(payload);
-
-				if (response?.success)
-				{
-					const fileText = await data.text();
-					setFileForProcessing(
-						{
-							id   : response.data?.fileId,
-							name : response.data?.originalName,
-							path : response.data?.filePath,
-							text : fileText
-						}
-					)
-				}
-
-				return response;
+				const fileText = await data.text();
+				setFileForProcessing(
+					{
+						id   : response.data?.fileId,
+						name : response.data?.originalName,
+						path : response.data?.filePath,
+						text : fileText
+					}
+				)
 			}
-			catch (err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+
+			return response;
 		};
 
-		const fetchFiles = async (needSsr: boolean) =>
+		const fetchFiles = async () =>
 		{
-			try
-			{
-				const response = await filesApi.fetch(needSsr);
+			const response = await filesApi.fetch();
 
-				if (response?.success)
-					setFiles(response.data);
-			}
-			catch (err: any) { console.error(err); }
+			if (response?.success)
+				setFiles(response.data);
 		};
 
 		const deleteFile = async (id: string) =>
 		{
-			try
-			{
-				const response = await filesApi.delete(id)
+			const response = await filesApi.delete(id)
 
-				if (response?.success)
-					deleteFileLocaly(id);
-			}
-			catch(err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+			if (response?.success)
+				deleteFileLocaly(id);
 		};
 
 		const renameFile = async (id: string, newName: string) =>
 		{
-			try
+			const response = await filesApi.rename(id, newName);
+
+			if (response?.success && files.value)
 			{
-				const response = await filesApi.rename(id, newName);
+				const file = files.value?.find((file: FileItem) => file.id === id);
 
-				if (response?.success && files.value)
-				{
-					const file = files.value?.find((file: FileItem) => file.id === id);
-
-					if (file)
-						file.name = newName;
-				}
-
-				return response;
+				if (file)
+					file.name = newName;
 			}
-			catch(err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+
+			return response;
 		};
 
-		const moveFile = async (fileId: string, folderId: string) =>
-		{
-			try
-			{
-				return await filesApi.move(fileId, folderId);
-			}
-			catch (err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
-		};
+		const moveFile = async (fileId: string, folderId: string) => await filesApi.move(fileId, folderId);
 
-		const fetchFile = async (id: string) =>
+		const fetchFile = async (id: string, isSsr: boolean) =>
 		{
-			try
-			{
-				const response = await filesApi.fetchFileById(id);
+			const response = await filesApi.fetchFileById(id, isSsr);
 
-				if (response?.success)
-					setFileForProcessing(response.data);
-			}
-			catch(err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+			if (response?.success)
+				setFileForProcessing(response.data);
 		};
 
 		const setFiles = (data: FileItem[]) => files.value = data;

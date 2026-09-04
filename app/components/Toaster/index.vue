@@ -27,7 +27,7 @@
 		row-gap: 10px;
 		z-index: 3;
 
-		top: 10px;
+		bottom: 10px;
 		right: 10px;
 		display: flex;
 		position: fixed;

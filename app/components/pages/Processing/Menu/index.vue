@@ -18,21 +18,7 @@
 			choosedOperationCodes.value.splice(index, 1);
 	};
 
-	const apply = async () =>
-	{
-		try
-		{
-			const response = await preprocessingApi.preprocessing(props.filePath, choosedOperationCodes.value.join(' '));
-
-			if (response.success)
-				useToast(response.message, 'success');
-		}
-		catch(err: any)
-		{
-			useToast(err.data.message, 'error');
-			console.error(err);
-		}
-	};
+	const apply = async () => await preprocessingApi.preprocessing(props.filePath, choosedOperationCodes.value.join(' '));;
 </script>
 
 <template>

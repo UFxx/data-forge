@@ -16,6 +16,16 @@ export default defineEventHandler(async (e) =>
 				}
 			);
 
+		const existingFolder = db.select().from(folders).where(eq(folders.id, id)).get();
+
+		if (!existingFolder)
+			throw createError(
+				{
+					statusCode: 400,
+					message: 'Такой папки не существует'
+				}
+			);
+
 		if (withFiles === 'true')
 			await db.delete(files).where(eq(files.folderId, id));
 

@@ -10,7 +10,7 @@ export default defineEventHandler(async (e) =>
 		if (!id)
 			throw createError(
 			{
-				statusCode : 401,
+				statusCode : 400,
 				message    : 'ID обязателен'
 			}
 		);
@@ -22,6 +22,14 @@ export default defineEventHandler(async (e) =>
 				path: files.path,
 			}
 		).from(files).where(eq(files.id, id)).get();
+
+		if (!file)
+			throw createError(
+			{
+				statusCode : 400,
+				message    : 'Файла с таким ID не существует'
+			}
+		);
 
 		let fileText;
 

@@ -9,7 +9,7 @@ export default {
 		}
 	),
 
-	fetch: async (isSsr: boolean) => await useRequest<FilesResponse>('/files', { isSsr }),
+	fetch: async () => await useRequest<FilesResponse>('/files'),
 	delete: async (id: string) => await useRequest<BaseResponse>(`/files/${id}`, { method: 'DELETE' }),
 	rename: async (id: string, newName: string) => await useRequest<BaseResponse>(`/files/${id}`,
 		{
@@ -25,9 +25,5 @@ export default {
 		}
 	),
 
-	fetchFileById: async (id: string) => await useRequest<GetFile>(`/files/${id}`,
-		{
-			isSsr: true
-		}
-	)
+	fetchFileById: async (id: string, isSsr: boolean) => await useRequest<GetFile>(`/files/${id}`, { isSsr })
 }

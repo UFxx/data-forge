@@ -3,7 +3,7 @@
 	const fileId      = useRoute().params.id as string;
 
 	if (!filesStore.fileForProcessing || filesStore.fileForProcessing.id !== fileId)
-		await filesStore.fetchFile(fileId);
+		await filesStore.fetchFile(fileId, true);
 
 	useSeoMeta({ title: filesStore.fileForProcessing?.name });
 
@@ -27,13 +27,25 @@
 			</table>
 		</div>
 
-		<UiButton
-			color="white"
-			class="icon-wr"
-			@click="toggleMenu"
-		>
-			<IconsBurger />
-		</UiButton>
+		<TransitionGroup name="fade">
+			<UiButton
+				v-if="!isMenuOpened"
+				color="white"
+				class="menu-icon-wr"
+				@click="toggleMenu"
+			>
+				<IconsBurger />
+			</UiButton>
+			<NuxtLink to="/">
+				<UiButton
+					v-if="!isMenuOpened"
+					color="white"
+					class="back-icon-wr"
+				>
+					<IconsBack />
+				</UiButton>
+			</NuxtLink>
+		</TransitionGroup>
 
 		<Teleport to="body">
 			<Transition name="slide-right">
@@ -85,10 +97,17 @@
 
 	.table { width: 100%; }
 
-	.icon-wr
+	.menu-icon-wr
 	{
 		top: 0;
 		right: -80px;
+		position: absolute;
+	}
+
+	.back-icon-wr
+	{
+		top: 0;
+		left: -80px;
 		position: absolute;
 	}
 </style>

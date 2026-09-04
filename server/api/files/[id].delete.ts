@@ -15,8 +15,15 @@ export default defineEventHandler(async (e) =>
 				}
 			);
 
-
 		const file = db.delete(files).where(eq(files.id, id)).returning({ path: files.path }).get();
+
+		if (!file)
+			throw createError(
+				{
+					statusCode: 400,
+					message: 'Параметр ID является обязательным'
+				}
+			);
 
 		if (file?.path)
 			fs.unlinkSync(file.path)

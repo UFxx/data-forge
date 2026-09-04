@@ -4,8 +4,8 @@
 
 	const searchString = ref<string>('');
 
-	await filesStore.fetchFiles(true);
-	await foldersStore.fetchFolders(true);
+	await filesStore.fetchFiles();
+	await foldersStore.fetchFolders();
 </script>
 
 <template>

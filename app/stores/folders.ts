@@ -8,38 +8,26 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 
 		const createFolder = async (name: string) =>
 		{
-			try
-			{
-				const response = await foldersApi.create(name);
+			const response = await foldersApi.create(name);
 
-				if (response?.data)
-					folders.value.push(
-						{
-							id         : response.data.folderId,
-							name       : name,
-							filesCount : 0
-						}
-					);
+			if (response?.data)
+				folders.value.push(
+					{
+						id         : response.data.folderId,
+						name       : name,
+						filesCount : 0
+					}
+				);
 
-				return response;
-			}
-			catch(err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+			return response;
 		};
 
-		const fetchFolders = async (isSsr: boolean) =>
+		const fetchFolders = async () =>
 		{
-			try
-			{
-				const response = await foldersApi.fetch(isSsr)
+			const response = await foldersApi.fetch()
 
-				if (response?.success)
-					folders.value = response.data;
-			}
-			catch (err) { console.error(err); }
+			if (response?.success)
+				folders.value = response.data;
 		};
 
 		const deleteFolder = async (
@@ -58,40 +46,24 @@ export const useFoldersStore = defineStore('foldersStore', () =>
 
 		const renameFolder = async (id: string, newName: string) =>
 		{
-			try
+			const response = await foldersApi.rename(id, newName);
+
+			if (response?.success)
 			{
-				const response = await foldersApi.rename(id, newName);
+				const folder = folders.value?.find((folder: Folder) => folder.id === id);
 
-				if (response?.success)
-				{
-					const folder = folders.value?.find((folder: Folder) => folder.id === id);
-
-					if (folder)
-						folder.name = newName;
-				}
-
-				return response?.success;
+				if (folder)
+					folder.name = newName;
 			}
-			catch(err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+
+			return response?.success;
 		};
 
 		const fetchFolderFiles = async (id: string) =>
 		{
-			try
-			{
-				const response = await foldersApi.fetchFolderById(id);
+			const response = await foldersApi.fetchFolderById(id);
 
-				return response;
-			}
-			catch (err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+			return response;
 		};
 
 		return {

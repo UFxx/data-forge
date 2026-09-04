@@ -10,46 +10,24 @@ export const useUserStore = defineStore('userStore',
 
 		const getCurrentUser = async () =>
 		{
-			try
-			{
-				const response = await userApi.getCurrentUser();
+			const response = await userApi.getCurrentUser();
 
-				if (response?.login)
-					setUserLogin(response.login);
-				else
-					navigateTo('/login');
-			}
-			catch(err: any) { console.error(err); }
+			if (response?.login)
+				setUserLogin(response.login);
+			else
+				navigateTo('/login');
 		};
 
 		const registration = async (data: RegistrationForm) =>
 		{
-			try
-			{
-				const response = await userApi.registration(data);
-
-				return response
-			}
-			catch (err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
+			const response = await userApi.registration(data);
+			return response;
 		}
 
 		const login = async (data: LoginForm) =>
 		{
-			try
-			{
 				const response = await userApi.login(data);
-
 				return response;
-			}
-			catch (err: any)
-			{
-				useToast(err.data.message, 'error');
-				console.error(err);
-			}
 		};
 
 		const logout = () =>

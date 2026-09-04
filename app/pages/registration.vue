@@ -12,10 +12,7 @@
 		const response = await userStore.registration(data);
 
 		if (response && response.success)
-		{
 			navigateTo('/login');
-			console.log(response.message);
-		}
 
 		isLoading.value = false;
 	}

@@ -6,47 +6,26 @@ export const useRequest = async <T>(
 ) =>
 {
 	const baseApiUrl = useRuntimeConfig().public.BASE_URL + useRuntimeConfig().public.API_URL;
-	const token      = useCookie('forgeJWT').value;
 
-	const headers =
-	{
-		...(token ? { Authorization: `Bearer ${token}` } : {}),
-		...options?.headers
-	};
+	const headers = useRequestHeaders(['cookie'])
 
-	const { isSsr, ...fetchOptions } = options || {};
-
-	if (options && !options.isSsr)
-	{
-		const response =  await $fetch<T & BaseResponse & { data? : T }>(
-			baseApiUrl + url,
-			{
-				...fetchOptions,
-				headers
-			}
-		);
-
-		if (response.success)
-			useToast(response.message, 'success');
-		else
+	const response =  await $fetch<T & BaseResponse & { data? : T }>(
+		baseApiUrl + url,
 		{
-			useToast(response.message, 'error');
-			console.error(response.message)
-		}
-
-		return response;
-	}
-	else
-	{
-		const { data } =  await useFetch<T>(baseApiUrl + url,
+			headers,
+			...options,
+			onResponse({ response })
 			{
-				...fetchOptions,
-				headers,
-				...{ server: true }
+				if (response._data.message)
+					useToast(response._data.message, 'success');
+			},
+			onResponseError({ response })
+			{
+				useToast(response._data.message, 'error');
+				console.error(response._data.message);
 			}
-		);
+		}
+	);
 
-		return data.value;
-	}
-
+	return response;
 };

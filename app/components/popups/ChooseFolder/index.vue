@@ -22,8 +22,8 @@ import type { ChooseFolderData } from '~/types/popups';
 
 		if (response?.success)
 		{
-			await foldersStore.fetchFolders(false);
-			await filesStore.fetchFiles(false);
+			await foldersStore.fetchFolders();
+			await filesStore.fetchFiles();
 			popupsStore.closeAnyPopup();
 		}
 
