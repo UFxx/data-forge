@@ -98,7 +98,7 @@
 		scrollbar-width: thin;
 
 		display: flex;
-		row-gap: 8px;
+		row-gap: 16px;
 		flex-direction: column;
 	}
 </style>

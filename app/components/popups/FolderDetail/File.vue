@@ -64,7 +64,10 @@
 			</div>
 			<div class="meta">
 				<p class="name">{{ name }}</p>
-				<p class="size">{{ formatFileSize(size) }}</p>
+				<div class="info">
+					<p class="size">{{ formatFileSize(size) }}</p>
+					<UiBadge v-if="!isProcessed">Предобработка</UiBadge>
+				</div>
 			</div>
 		</NuxtLink>
 		<ItemOptions
@@ -116,7 +119,7 @@
 	.meta
 	{
 		display: flex;
-		row-gap: 4px;
+		row-gap: 8px;
 		flex-direction: column;
 	}
 
@@ -131,5 +134,11 @@
 		-webkit-line-clamp: 1;
 
 		display: block;
+	}
+
+	.info
+	{
+		display: flex;
+		column-gap: 8px;
 	}
 </style>

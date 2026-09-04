@@ -7,25 +7,29 @@ export const useRequest = async <T>(
 {
 	const baseApiUrl = useRuntimeConfig().public.BASE_URL + useRuntimeConfig().public.API_URL;
 
-	const headers = useRequestHeaders(['cookie'])
+	const headers = useRequestHeaders(['cookie']);
 
-	const response =  await $fetch<T & BaseResponse & { data? : T }>(
-		baseApiUrl + url,
-		{
-			headers,
-			...options,
-			onResponse({ response })
+	try
+	{
+		const response =  await $fetch<T & BaseResponse & { data? : T }>(
+			baseApiUrl + url,
 			{
-				if (response._data?.message &&  response._data?.success)
-					useToast(response._data.message, 'success');
-			},
-			onResponseError({ response })
-			{
-				useToast(response._data.message, 'error');
-				console.error(response._data.message);
+				headers,
+				...options,
+				onResponse({ response })
+				{
+					if (response._data?.message &&  response._data?.success)
+						useToast(response._data.message, 'success');
+				},
+				onResponseError({ response })
+				{
+					useToast(response._data.message, 'error');
+					console.error(response._data.message);
+				}
 			}
-		}
-	);
+		);
 
-	return response;
+		return response;
+	}
+	catch(err) { return; }
 };

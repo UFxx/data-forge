@@ -29,40 +29,42 @@
 		<button class="menu-button">
 			<IconsMenu />
 		</button>
-		<div
-			v-if="isMenuOpened"
-			class="options"
-			ref="optionsRef"
-		>
-			<button
-				v-if="rename"
-				class="option"
-				@click.stop="emit('rename', true)"
+		<Transition name="fade">
+			<div
+				v-if="isMenuOpened"
+				class="options"
+				ref="optionsRef"
 			>
-				Переименовать
-			</button>
-			<button
-				v-if="moveToFolder"
-				class="option"
-				@click.stop="emit('moveToFolder')"
-			>
-				Переместить в папку
-			</button>
-			<button
-				v-if="unlinkFileFromFolder"
-				class="option"
-				@click.stop="emit('unlinkFileFromFolder')"
-			>
-				Удалить из папки
-			</button>
-			<button
-				v-if="delete"
-				class="option option--delete"
-				@click.stop="emit('delete')"
-			>
-				Удалить
-			</button>
-		</div>
+				<button
+					v-if="rename"
+					class="option"
+					@click.stop="emit('rename', true)"
+				>
+					Переименовать
+				</button>
+				<button
+					v-if="moveToFolder"
+					class="option"
+					@click.stop="emit('moveToFolder')"
+				>
+					Переместить в папку
+				</button>
+				<button
+					v-if="unlinkFileFromFolder"
+					class="option"
+					@click.stop="emit('unlinkFileFromFolder')"
+				>
+					Удалить из папки
+				</button>
+				<button
+					v-if="delete"
+					class="option option--delete"
+					@click.stop="emit('delete')"
+				>
+					Удалить
+				</button>
+			</div>
+		</Transition>
 	</div>
 </template>
 
@@ -103,7 +105,7 @@
 		padding: 6px 12px;
 		font-size: 12px;
 		text-align: left;
-		color: $light-gray;
+		color: rgba($gray, 0.8);
 
 		@include tr(0.3, color, background-color);
 

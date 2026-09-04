@@ -16,7 +16,7 @@ export default defineEventHandler(async (e) =>
 
 			if (existingUser.length > 0)
 				throw createError({
-					statusCode: 409,
+					statusCode: 400,
 					message: 'Пользователь с таким логином уже зарегистрирован'
 				});
 

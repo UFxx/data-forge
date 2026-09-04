@@ -31,6 +31,7 @@
 					:name="file.name"
 					:size="file.size"
 					:folderId="file.folderId"
+					:folderName="file.folderName"
 					:isProcessed="file.isProcessed"
 				/>
 			</template>

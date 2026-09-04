@@ -5,7 +5,8 @@ export interface FileItem
 	id          : string,
 	size        : number,
 	name        : string,
-	folderId?   : string | null,
+	folderId    : string | null,
+	folderName  : string | null,
 	isProcessed : boolean,
 };
 

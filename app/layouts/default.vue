@@ -20,7 +20,8 @@
 	useEventListener('resize', handleResize);
 	onKeyStroke('Escape', () => popupsStore.closeAnyPopup());
 
-	await userStore.getCurrentUser();
+	if (useCookie('forgeJWT').value)
+		await userStore.getCurrentUser();
 </script>
 
 <template>

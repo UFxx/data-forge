@@ -6,8 +6,12 @@
 
 	const popupData = popupsStore.popupData as DeleteFolderConfirmationData;
 
+	const isLoading = ref(false);
+
 	const confirmDelete = async (unlinkFiles? :boolean, withFiles?: boolean) =>
 	{
+		isLoading.value = true;
+
 		const response = await popupData.deleteFunction(popupData?.id, withFiles, unlinkFiles);
 
 		if (response && response.success)
@@ -15,6 +19,8 @@
 			popupsStore.closeAnyPopup();
 			await filesStore.fetchFiles();
 		}
+
+		isLoading.value = false;
 	};
 </script>
 
@@ -28,17 +34,20 @@
 			<UiButton
 				color="white"
 				@click="popupsStore.closeAnyPopup"
+				:disabled="isLoading"
 			>
 				Отменить
 			</UiButton>
 			<UiButton
 				@click="confirmDelete(true, false)"
+				:disabled="isLoading"
 			>
 				Открепить файлы и удалить
 			</UiButton>
 			<UiButton
 				color="red"
 				@click="confirmDelete(false, true)"
+				:disabled="isLoading"
 			>
 				Удалить с файлами
 			</UiButton>

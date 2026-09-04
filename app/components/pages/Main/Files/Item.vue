@@ -6,7 +6,8 @@
 		id          : string,
 		size        : number,
 		name        : string,
-		folderId?   : string | null,
+		folderId    : string | null,
+		folderName  : string | null,
 		isProcessed : boolean
 	}>();
 
@@ -56,11 +57,16 @@
 			class="name"
 			:to="fileLink"
 		>
-		<div class="icon-wr">
-			<IconsCSV />
-		</div>
-		<p>{{ name }}</p>
-	</NuxtLink>
+			<div class="icon-wr">
+				<IconsCSV />
+			</div>
+			<p>{{ name }}</p>
+			<UiBadge v-if="!isProcessed">Предобработка</UiBadge>
+			<UiBadge v-if="folderName">
+				<IconsFolder class="folder-name-icon" />
+				{{ folderName }}
+			</UiBadge>
+		</NuxtLink>
 		<div class="meta">
 			<p>{{ formatFileSize(size) }}</p>
 			<ItemOptions
@@ -99,9 +105,9 @@
 		column-gap: 12px;
 		align-items: center;
 
-		&:hover p { transform: translateX(4px); }
+		@include tr(0.3, transform);
 
-		p { @include tr(0.3, transform); }
+		&:hover { transform: translateX(4px); }
 	}
 
 	.icon-wr
@@ -113,6 +119,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.folder-name-icon
+	{
+		width: 14px;
+		height: 14px;
 	}
 
 	.meta

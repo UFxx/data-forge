@@ -1,5 +1,5 @@
 import { db } from '#db';
-import { files } from '#db/schema';
+import { files, folders } from '#db/schema';
 import { eq } from 'drizzle-orm';
 
 export default defineEventHandler(async (e) =>
@@ -10,9 +10,12 @@ export default defineEventHandler(async (e) =>
 				name        : files.name,
 				size        : files.size,
 				folderId    : files.folderId,
+				folderName  : folders.name,
 				isProcessed : files.isProcessed
 			}
-			).from(files).where(eq(files.userId, e.context.userId));
+			).from(files)
+			.leftJoin(folders, eq(files.folderId, folders.id))
+			.where(eq(files.userId, e.context.userId));
 
 		return {
 			success: true,
